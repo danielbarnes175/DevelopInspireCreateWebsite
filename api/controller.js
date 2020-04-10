@@ -24,7 +24,7 @@ const controllers = {
             res.render('contact.hbs', {title: 'Contact', condition: false});
     },
     donate: function(req, res) {
-        res.render('donate.hbs', {title: 'Test', condition: false});
+        res.render('donate.hbs', {title: 'Donate', condition: false});
     },
     sendEmail: function(req, res) {
         EmailService.submitEmail(req, res);

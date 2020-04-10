@@ -1,0 +1,109 @@
+html {
+    color: white;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    background-color: black;
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+body {
+    margin: 0 10% 0 10%;
+}
+
+.pad-left {
+    margin-left: 20%;
+}
+
+.pad-right {
+    margin-right: 20%;
+}
+
+.navbar {
+    text-decoration: none;
+    color: white;
+    font-family: "Roboto Black";
+}
+
+.navbar-list {
+    display: inline;
+    text-align: center;
+    list-style-type: none;
+}
+.navbar-list li {
+    padding-left:30px;
+    padding-right:30px;
+    float: center;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.navbar a:hover {
+    color: cyan;
+    padding-bottom: 3px;
+    border-bottom: 3px solid #fff;
+}
+
+.linebreak {
+    margin: 20px 40% 0 40%;
+    border-bottom: 2px solid #eeeeee;
+}
+.container-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo {
+    margin-top: 10%;
+    width: 75%;
+    height: 100%;
+}
+
+.logo-small {
+    margin-top: 1%;
+    width: 25%;
+    height: 100%;
+}
+
+.logo-very-small {
+    width: 10%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.form-box {
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.button-primary {
+    color: white;
+    background-color: red;
+    border: 1px solid black;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+.button-primary:hover {
+    background-color:darkred;
+}
+
+.form-description {
+    margin: 10px 40% 0 40%;
+    font-family: "Roboto"
+}
+
+.footer {
+    text-align: center;
+}

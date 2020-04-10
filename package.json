@@ -1,0 +1,25 @@
+{
+  "name": "developinspirecreatewebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "develop",
+    "inspire",
+    "create"
+  ],
+  "author": "Daniel Barnes",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.3",
+    "nodemailer": "^6.4.6",
+    "swup": "^2.0.9"
+  }
+}

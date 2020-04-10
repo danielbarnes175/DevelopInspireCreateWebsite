@@ -1,0 +1,21 @@
+.form-input {
+    margin: 5px;
+    padding: 3px;
+}
+
+.contact-list {
+    list-style-type: none;
+}
+
+.contact-list li {
+    padding: 2px;
+}
+
+.contact-list li a {
+    color: white;
+    text-decoration: none;
+}
+
+.contact-list li a:hover {
+    color: cyan;
+}

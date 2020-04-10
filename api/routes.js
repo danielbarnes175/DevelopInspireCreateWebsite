@@ -17,4 +17,6 @@ module.exports = function(app) {
         .get(controller.donate);
     app.route('/contact/send')
         .post(controller.sendEmail);
+    app.route('/subscribe')
+        .post(controller.subscribe);
 };

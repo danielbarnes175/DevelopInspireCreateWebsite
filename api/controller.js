@@ -6,7 +6,10 @@ const EmailService = require('../services/EmailService.js');
 
 const controllers = {
     index: function (req, res) {
-        res.render('index.hbs', {title: 'Develop / Inspire / Create', condition: false});
+        if (req.query)
+            res.render('index.hbs', {title: 'Develop / Inspire / Create', condition: false, attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true')});
+        else
+            res.render('index.hbs', {title: 'Develop / Inspire / Create', condition: false});
     },
     about: function(req, res) {
         res.render('about.hbs', {title: 'About', condition: false});
@@ -28,6 +31,9 @@ const controllers = {
     },
     sendEmail: function(req, res) {
         EmailService.submitEmail(req, res);
+    },
+    subscribe: function(req, res) {
+        EmailService.registerEmail(req, res);
     }
 };
 

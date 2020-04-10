@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const url = require('url');
+const fs = require('fs');
 
 module.exports = {
     submitEmail: async function (req, res) {
@@ -19,8 +20,38 @@ module.exports = {
           }));
         }
     },
-}
+    registerEmail: async function (req, res) {
+      let maillist, result;
+      if (process.env.DEPLOYMENT === "PRODUCTION") {
+        maillist = JSON.parse(fs.readFileSync('resources/prodMailList.json', 'utf8'))
+      } else {
+        maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
+      }
+      
+      if (!maillist.users[req.body.email])
+        result = await addUser(req.body.email, maillist);
+      else
+        result = true;
 
+      res.redirect(url.format({
+          pathname:"/../../",
+          query: {
+             "result": result,
+             "attempted": true
+           }
+      }));
+    }
+}
+async function addUser(email, list) {
+  list.users[email] = true;
+
+  let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
+  await fs.writeFile(filename, JSON.stringify(list, null, 2), err => {
+    if (err) throw err;
+  })
+
+  return true;
+}
 async function constructEmail(sender, body) {
     let email = `Email submitted through form:\n\n`;
 

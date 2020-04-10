@@ -1,0 +1,24 @@
+<div class="pad-left">
+<h1>Send Newsletter</h1>
+{{# if authenticated }}
+    <form action="sendNewsletter">
+        <label for="subject">Subject: </label>
+        <br><input name="subject" id="subject" type="text">
+        <br><br><label for="body"> Your message:</label>
+        <br><textarea name="body" id="body" class="form-input" rows="10" cols="70"></textarea>
+        <br><input class="button-primary" type="submit">
+        {{#if attempted}}
+            {{#if result}}
+                <i class="fa fa-check"></i> Email successfully sent.
+            {{else}}
+                <i class="fa fa-times"></i> Error: please try again later.
+            {{/if}}
+        {{else}}
+
+        {{/if}}
+    </form>
+        
+{{ else }}
+    <p>Please authenticate</p>
+{{/if}}
+</div>

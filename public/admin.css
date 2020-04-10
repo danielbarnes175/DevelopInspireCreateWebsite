@@ -1,0 +1,16 @@
+.dashboard-list {
+    list-style-type: none;
+}
+
+.dashboard-list li {
+    padding: 2px;
+}
+
+.dashboard-list li a {
+    color: white;
+    text-decoration: none;
+}
+
+.dashboard-list li a:hover {
+    color: cyan;
+}

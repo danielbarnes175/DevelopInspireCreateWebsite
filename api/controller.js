@@ -3,6 +3,7 @@ const properties = require('../package.json');
 const path = require('path');
 
 const EmailService = require('../services/EmailService.js');
+const AdminService = require('../services/AdminService.js');
 
 const controllers = {
     index: function (req, res) {
@@ -34,6 +35,30 @@ const controllers = {
     },
     subscribe: function(req, res) {
         EmailService.registerEmail(req, res);
+    },
+    admin: function(req, res) {
+        res.render('admin/authenticate.hbs', {title: 'Admin Authentication', condition: false});
+    },
+    authenticate: function(req, res) {
+        AdminService.authenticate(req, res);
+    },
+    adminDashboard: function(req, res) {
+        if (req.query && req.query.authentication_token === process.env.ADMIN_AUTHENTICATION_TOKEN)
+            res.render('admin/adminDashboard.hbs', {title: 'Admin Control Panel', condition: false, "authentication_token": req.query.authentication_token});
+        else
+            res.render('admin/authenticate.hbs', {title: 'Admin Authentication', condition: false});
+    },
+    newsletter: function(req, res) {
+        if (req.params && req.params.authentication_token === ":" + process.env.ADMIN_AUTHENTICATION_TOKEN)
+            res.render('admin/newsletter.hbs', {title: 'Newsletter', condition: false, authenticated: true}); 
+        else
+            res.render('admin/newsletter.hbs', {title: 'Newsletter', condition: false});
+    },
+    addProject: function(req, res) {
+        if (req.params && req.params.authentication_token === ":" + process.env.ADMIN_AUTHENTICATION_TOKEN)
+            res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false, authenticated: true}); 
+        else
+            res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false});
     }
 };
 

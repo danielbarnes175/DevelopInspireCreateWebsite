@@ -19,4 +19,16 @@ module.exports = function(app) {
         .post(controller.sendEmail);
     app.route('/subscribe')
         .post(controller.subscribe);
+
+    // Admin pages
+    app.route('/admin')
+        .get(controller.admin);
+    app.route('/authenticate')
+        .post(controller.authenticate);
+    app.route('/adminDashboard')
+        .get(controller.adminDashboard);
+    app.route('/newsletter/:authentication_token')
+        .get(controller.newsletter);
+    app.route('/addProject/:authentication_token')
+        .get(controller.addProject);
 };

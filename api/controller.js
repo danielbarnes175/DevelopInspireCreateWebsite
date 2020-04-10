@@ -54,6 +54,9 @@ const controllers = {
         else
             res.render('admin/newsletter.hbs', {title: 'Newsletter', condition: false});
     },
+    sendNewsletter: function(req, res) {
+            EmailService.sendNewsletter(req, res);
+    },
     addProject: function(req, res) {
         if (req.params && req.params.authentication_token === ":" + process.env.ADMIN_AUTHENTICATION_TOKEN)
             res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false, authenticated: true}); 

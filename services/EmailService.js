@@ -20,6 +20,24 @@ module.exports = {
           }));
         }
     },
+    sendNewsletter: async function (req, res) {
+      console.log("SendNEWSLETTER");
+      if (req.body.body) {
+        let result = true;
+        try {
+          await sendMassMessage(req.body.subject, req.body.body);
+        } catch (err) {
+          result = false;
+        }
+        res.redirect(url.format({
+          pathname:"/newsletter/:" + process.env.ADMIN_AUTHENTICATION_TOKEN,
+          query: {
+             "result": result,
+             "attempted": true
+           }
+        }));
+      }
+    },
     registerEmail: async function (req, res) {
       let maillist, result;
       if (process.env.DEPLOYMENT === "PRODUCTION") {
@@ -65,7 +83,45 @@ async function constructEmail(sender, body) {
       throw err;
     }
 }
+async function sendMassMessage(subject, email) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      // Temporary account credentials for testing.
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
 
+  let maillist;
+  if (process.env.DEPLOYMENT === "PRODUCTION") {
+    maillist = JSON.parse(fs.readFileSync('resources/prodMailList.json', 'utf8'))
+  } else {
+    maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
+  }
+  console.log(Object.keys(maillist.users).length);
+  let numUsers = Object.keys(maillist.users).length;
+  let users = Object.keys(maillist.users);
+  for (let i = 0; i < numUsers; i++) {
+    let user = users[i];
+
+    const mailOptions = {
+      from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',
+      to: user,
+      subject: subject,
+      html: email,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (error) {
+      throw error;
+    }
+  }
+}
 async function sendEmail(email) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',

@@ -29,6 +29,8 @@ module.exports = function(app) {
         .get(controller.adminDashboard);
     app.route('/newsletter/:authentication_token')
         .get(controller.newsletter);
+    app.route('/newsletter/send/:authentication_token')
+        .post(controller.sendNewsletter);
     app.route('/addProject/:authentication_token')
         .get(controller.addProject);
 };

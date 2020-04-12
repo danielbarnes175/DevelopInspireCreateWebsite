@@ -5,6 +5,7 @@
 
     width: 50%;
     height: 300px;
+    overflow: hidden;
 }
 .card a {
     color: white;
@@ -22,3 +23,10 @@
 .yt-thumbnail {
     
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="card"] {
+      width: 100%;
+    }
+  }

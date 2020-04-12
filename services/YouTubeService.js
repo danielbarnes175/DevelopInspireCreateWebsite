@@ -14,7 +14,7 @@ module.exports = {
         }
 
         let videos = [];
-        for (let i = 0; i < body.data.items.length; i++) {
+        for (let i = 0; i < body.data.items.length - 1; i++) {
             let video = {
                 title: body.data.items[i].snippet.title,
                 description: body.data.items[i].snippet.description,
@@ -30,9 +30,6 @@ module.exports = {
 }
 
 async function callApi() {
-    console.log("Calling API");
-
-
     let body = await axios.get(fullYTApi);
     return body;
 }

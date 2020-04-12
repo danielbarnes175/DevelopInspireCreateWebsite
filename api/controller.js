@@ -20,8 +20,8 @@ const controllers = {
         let videoList = await YouTubeService.getVideos(req, res);
         res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});
     },
-    projects: function(req, res) {
-        res.render('projects.hbs', {title: 'Projects', condition: false});
+    blog: function(req, res) {
+        res.render('blog.hbs', {title: 'Blog', condition: false});
     },
     contact: function(req, res) {
         if (req.query)

@@ -1,1 +1,18 @@
 <h1>{{ title }}</h1>
+<center>
+{{#each videos}}
+    
+    <div class="card">
+        <a href="{{ url }}">
+        <div class="column">
+            <h2>{{ this.title}}</h2>
+            <p>{{ this.description }}</p>
+        </div>
+        <div class="column">
+            <img class="yt-thumbnail" src="{{ image }}" />
+        </div>
+        </a>
+    </div>
+
+{{/each}}
+</center>

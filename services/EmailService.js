@@ -21,7 +21,6 @@ module.exports = {
         }
     },
     sendNewsletter: async function (req, res) {
-      console.log("SendNEWSLETTER");
       if (req.body.body) {
         let result = true;
         try {
@@ -102,7 +101,7 @@ async function sendMassMessage(subject, email) {
   } else {
     maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
   }
-  console.log(Object.keys(maillist.users).length);
+
   let numUsers = Object.keys(maillist.users).length;
   let users = Object.keys(maillist.users);
   for (let i = 0; i < numUsers; i++) {

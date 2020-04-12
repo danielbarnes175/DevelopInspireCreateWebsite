@@ -4,6 +4,7 @@ const path = require('path');
 
 const EmailService = require('../services/EmailService.js');
 const AdminService = require('../services/AdminService.js');
+const YouTubeService = require('../services/YouTubeService.js');
 
 const controllers = {
     index: function (req, res) {
@@ -15,8 +16,9 @@ const controllers = {
     about: function(req, res) {
         res.render('about.hbs', {title: 'About', condition: false});
     },
-    videos: function(req, res) {
-        res.render('videos.hbs', {title: 'Videos', condition: false});
+    videos: async function(req, res) {
+        let videoList = await YouTubeService.getVideos(req, res);
+        res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});
     },
     projects: function(req, res) {
         res.render('projects.hbs', {title: 'Projects', condition: false});

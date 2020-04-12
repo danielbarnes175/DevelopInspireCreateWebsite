@@ -12,7 +12,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
         }
-
+        if (!body) return [];
         let videos = [];
         for (let i = 0; i < body.data.items.length - 1; i++) {
             let video = {

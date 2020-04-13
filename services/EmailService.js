@@ -97,7 +97,7 @@ async function addUser(email, list) {
   })
   // Send verification email
   let subject = "Please verify your email with DevelopInspireCreate.com!"
-  let body = "https://www.DevelopInspireCreate.com/verify?id=" + id;
+  let body = "www.DevelopInspireCreate.com/verify?id=" + id;
   sendEmail(email, subject, body);
   return true;
 }

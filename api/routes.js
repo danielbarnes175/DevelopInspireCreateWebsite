@@ -15,6 +15,8 @@ module.exports = function(app) {
         .get(controller.contact);
     app.route('/donate')
         .get(controller.donate);
+    app.route('/pp')
+        .get(controller.pp);
     app.route('/contact/send')
         .post(controller.sendEmail);
     app.route('/subscribe')

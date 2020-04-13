@@ -32,6 +32,9 @@ const controllers = {
     donate: function(req, res) {
         res.render('donate.hbs', {title: 'Donate', condition: false});
     },
+    pp: function(req, res) {
+        res.render('privacyPolicy.hbs', {title: 'Privacy Policy', condition: false});
+    },
     sendEmail: function(req, res) {
         EmailService.submitEmail(req, res);
     },

@@ -47,6 +47,12 @@ module.exports = {
       
       if (!maillist.users[req.body.email])
         result = await addUser(req.body.email, maillist);
+      else if (!maillist.users[req.body.email].verified) {
+        let subject = "Please verify your email with DevelopInspireCreate.com!"
+        let body = "www.DevelopInspireCreate.com/verify?id=" + maillist.users[req.body.email].id;
+        sendEmail(req.body.email, subject, body);
+        result = true;
+      }
       else
         result = true;
 

@@ -38,6 +38,11 @@ const controllers = {
     subscribe: function(req, res) {
         EmailService.registerEmail(req, res);
     },
+    verify: function(req, res) {
+        let id = req.query.id;
+        EmailService.verifyId(id);
+        res.render('verified.hbs', {title: 'Email Verified', condition: false});
+    },
     admin: function(req, res) {
         res.render('admin/authenticate.hbs', {title: 'Admin Authentication', condition: false});
     },

@@ -20,6 +20,9 @@ module.exports = function(app) {
     app.route('/subscribe')
         .post(controller.subscribe);
 
+    app.route('/verify')
+        .get(controller.verify);
+
     // Admin pages
     app.route('/admin')
         .get(controller.admin);

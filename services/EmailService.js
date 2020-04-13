@@ -54,19 +54,51 @@ module.exports = {
           pathname:"/../../",
           query: {
              "result": result,
-             "attempted": true
+             "attempted": true, 
            }
       }));
+    },
+    verifyId: async function (id) {
+        if (process.env.DEPLOYMENT === "PRODUCTION") {
+          maillist = JSON.parse(fs.readFileSync('resources/prodMailList.json', 'utf8'))
+        } else {
+          maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
+        }
+
+        let numUsers = Object.keys(maillist.users).length;
+        let users = Object.keys(maillist.users);
+        for (let i = 0; i < numUsers; i++) {
+          let user = users[i];
+          user = maillist.users[user]; // such a hacky way to do this because I don't know the keys
+
+          if (user.id != id) continue;
+
+          user.verified = true;
+
+          let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
+          await fs.writeFile(filename, JSON.stringify(maillist, null, 2), err => {
+            if (err) throw err;
+          })
+
+          break;
+        }
     }
 }
 async function addUser(email, list) {
-  list.users[email] = true;
+  let id = generateId();
+  list.users[email] = {
+    "id": id,
+    "verified": false
+  };
 
   let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
   await fs.writeFile(filename, JSON.stringify(list, null, 2), err => {
     if (err) throw err;
   })
-
+  // Send verification email
+  let subject = "Please verify your email with DevelopInspireCreate.com!"
+  let body = "https://www.DevelopInspireCreate.com/verify?id=" + id;
+  sendEmail(email, subject, body);
   return true;
 }
 async function constructEmail(sender, body) {
@@ -77,7 +109,7 @@ async function constructEmail(sender, body) {
     email += `Body:\n${body}\n\n`;
 
     try {
-      await sendEmail(email);
+      await sendEmail("danny.cow3@yahoo.com", "New Contact Form Reply", email);
     } catch (err) {
       throw err;
     }
@@ -106,7 +138,7 @@ async function sendMassMessage(subject, email) {
   let users = Object.keys(maillist.users);
   for (let i = 0; i < numUsers; i++) {
     let user = users[i];
-
+    if (!maillist.users[user].verified) continue;
     const mailOptions = {
       from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',
       to: user,
@@ -121,7 +153,7 @@ async function sendMassMessage(subject, email) {
     }
   }
 }
-async function sendEmail(email) {
+async function sendEmail(email, subject, body) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -136,9 +168,9 @@ async function sendEmail(email) {
   
       const mailOptions = {
         from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',
-        to: 'danny.cow3@yahoo.com',
-        subject: 'New Contact Form Reply',
-        html: email,
+        to: email,
+        subject: subject,
+        html: body,
       };
   
       try {
@@ -146,4 +178,15 @@ async function sendEmail(email) {
       } catch (error) {
         throw error;
       }
+}
+
+function generateId() {
+  let arr = "1234567890abcdefghijklmnopqrstuvwxyz"
+  let len = 36;
+  let ans = ''; 
+  for (var i = len; i > 0; i--) { 
+    ans +=  
+    arr[Math.floor(Math.random() * arr.length)]; 
+  } 
+  return ans;
 }

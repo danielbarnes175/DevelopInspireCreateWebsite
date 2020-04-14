@@ -59,6 +59,27 @@
     border-bottom: 2px solid #eeeeee;
 }
 
-.youtube {
-    background:
-}
+@media only screen and (max-width: 1000px) {
+    .content-card-blog {
+        margin-top: 1%;
+        padding: 4% 8% 4% 8%;
+        height: 350px;
+    }
+    
+    .content-card-blog h3 {
+        height: 130px;
+    }
+    
+    .content-card-blog a {
+        color: white;
+        text-decoration: none;
+    }
+    .content-card-blog a:hover {
+        color: cyan;
+    }
+    
+    .content-card-blog p {
+        height: 240px;
+        color: #a1e1e1;
+    }
+  }

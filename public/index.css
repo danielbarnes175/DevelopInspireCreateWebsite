@@ -37,6 +37,14 @@
     height: 60px;
 }
 
+.content-card-blog a {
+    color: white;
+    text-decoration: none;
+}
+.content-card-blog a:hover {
+    color: cyan;
+}
+
 .content-card-blog p {
     height: 140px;
     color: #a1e1e1;

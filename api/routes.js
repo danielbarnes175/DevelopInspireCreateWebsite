@@ -9,8 +9,6 @@ module.exports = function(app) {
         .get(controller.about);
     app.route('/videos')
         .get(controller.videos);
-    app.route('/blog')
-        .get(controller.blog);
     app.route('/contact')
         .get(controller.contact);
     app.route('/donate')
@@ -21,7 +19,8 @@ module.exports = function(app) {
         .post(controller.sendEmail);
     app.route('/subscribe')
         .post(controller.subscribe);
-
+    app.route('/blog')
+        .get(controller.blog);
     app.route('/verify')
         .get(controller.verify);
 

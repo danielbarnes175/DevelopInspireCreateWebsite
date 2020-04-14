@@ -1,0 +1,37 @@
+.blog {
+    margin-top: 10%;
+}
+
+.blog-heading {
+    border-bottom: 3px solid cyan;
+    width: 100px;
+    margin-bottom: 10px;
+}
+.blog-list {
+    
+    list-style-type: none;
+}
+
+.blog-post-card {
+    text-decoration: none;
+    color: white;
+    border: 1px solid gray;
+    padding: 10px;
+}
+.blog-post-card:hover {
+    color: cyan;
+}
+
+.blog-paragraph {
+    font-family: "Libre Baskerville",Georgia,serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    line-height: 1.75;
+    color: #e4ede6
+}
+
+.blog-subhead {
+    color: #a1e1e1;
+    text-transform: uppercase;
+}

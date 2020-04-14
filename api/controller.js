@@ -20,9 +20,6 @@ const controllers = {
         let videoList = await YouTubeService.getVideos(req, res);
         res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});
     },
-    blog: function(req, res) {
-        res.render('blog.hbs', {title: 'Blog', condition: false});
-    },
     contact: function(req, res) {
         if (req.query)
             res.render('contact.hbs', {title: 'Contact', condition: false, attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true')});
@@ -40,6 +37,12 @@ const controllers = {
     },
     subscribe: function(req, res) {
         EmailService.registerEmail(req, res);
+    },
+    blog: function(req, res) {
+        if (req.query && req.query.blog)
+            res.render(`blogs/blog${req.query.blog}.hbs`, {title: 'Blog Post', condition: false});
+        else
+            res.render('blogs/blogIndex.hbs', {title: 'Blog Posts', condition: false});
     },
     verify: function(req, res) {
         let id = req.query.id;

@@ -13,7 +13,7 @@ html {
 }
 
 body {
-    margin: 0 10% 0 10%;
+    margin: 0 0 0 0;
 }
 
 .pad-left {
@@ -22,6 +22,10 @@ body {
 
 .pad-right {
     margin-right: 25%;
+}
+
+.pad-top {
+    margin-top: 15%;
 }
 
 .navbar {
@@ -75,6 +79,12 @@ body {
     height: 100%;
 }
 
+.logo-medium {
+    margin-top: 1%;
+    width: 50%;
+    height: 100%;
+}
+
 .logo-very-small {
     width: 10%;
     height: 100%;
@@ -87,6 +97,10 @@ body {
     border-radius: 10px;
 }
 
+.newsletter-signup {
+    margin-bottom: 10%;
+}
+
 .button-primary {
     color: white;
     background-color: red;
@@ -94,10 +108,37 @@ body {
     padding: 8px;
     border-radius: 3px;
 }
-
+.background-light-gray {
+    background: #323c4d;
+}
 .button-primary:hover {
     background-color:darkred;
 }
+
+.button-secondary {
+    color: white;
+    background-color: #546e9c;
+    border: 1px solid black;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+.button-secondary:hover {
+    background-color:#2c2c57;
+}
+
+.button-tertiary {
+    color: white;
+    background-color: #88a5d6;
+    border: 1px solid black;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+.button-tertiary:hover {
+    background-color:#595979;
+}
+
 
 .form-description {
     margin: 10px 40% 0 40%;

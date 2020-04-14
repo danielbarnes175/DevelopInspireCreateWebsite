@@ -1,0 +1,56 @@
+.index-subhead {
+    color: #a1e1e1;
+    text-transform: uppercase;
+}
+
+.background-secondary {
+    background: #2b2e33;
+    padding: 5px;
+}
+.index-container {
+    margin: 0 25% 0 25%;
+}
+.row {
+    display: flex;
+}
+
+.content-card {
+    flex: 33%;
+}
+
+.content-card-image {
+    width: 50%;
+    height: auto;
+}
+
+.content-card-line {
+    margin: 10px 40% 10px 40%;
+    border-bottom: 2px solid #a1e1e1;
+}
+.content-card-blog {
+    margin-top: 1%;
+    padding: 4% 8% 4% 8%;
+    height: 250px;
+}
+
+.content-card-blog h3 {
+    height: 60px;
+}
+
+.content-card-blog p {
+    height: 140px;
+    color: #a1e1e1;
+}
+
+.content-card-blog img {
+    width: 50%;
+}
+
+.linebreak-big-margins {
+    margin: 5% 40% 5% 40%;
+    border-bottom: 2px solid #eeeeee;
+}
+
+.youtube {
+    background:
+}

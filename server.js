@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000;
 const https = require('https');
 const fs = require('fs');
 
-const certificate = fs.readFileSync('developinspirecreate.com.crt.pem');
-const privateKey = fs.readFileSync('developinspirecreate.com.key.pem');
+const certificate = fs.readFileSync('developinspirecreate.com.crt');
+const privateKey = fs.readFileSync('developinspirecreate.com.key');
 app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 

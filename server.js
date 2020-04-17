@@ -7,6 +7,11 @@ const hbs = require('express-handlebars');
 const path = require('path');
 const favicon = require('serve-favicon');
 const port = process.env.PORT || 3000;
+const https = require('https');
+const fs = require('fs');
+
+const certificate = fs.readFileSync('developinspirecreate.com.crt');
+const privateKey = fs.readFileSync('developinspirecreate.com.key');
 app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 
@@ -47,6 +52,9 @@ if (app.get('env') === 'development') {
 const routes = require('./api/routes.js');
 
 routes(app);
-app.listen(port, function() {
-    console.log(`Server started on port: ${port}`);
+https.createServer({
+	key: privateKey,
+	cert: certificate
+}, app).listen(port, function() {
+	console.log(`Server started on port: ${port}`);
 });

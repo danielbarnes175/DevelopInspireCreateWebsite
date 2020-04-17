@@ -20,8 +20,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.3",
+    "fs": "0.0.1-security",
     "google-auth-library": "^6.0.0",
     "googleapis": "^48.0.0",
+    "https": "^1.0.0",
     "nodemailer": "^6.4.6",
     "serve-favicon": "^2.5.0",
     "swup": "^2.0.9"

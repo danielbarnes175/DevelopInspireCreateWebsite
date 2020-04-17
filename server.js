@@ -5,6 +5,7 @@ dotenv.config();
 const bodyParser  = require('body-parser');
 const hbs = require('express-handlebars');
 const path = require('path');
+const favicon = require('serve-favicon');
 const port = process.env.PORT || 3000;
 app.engine('hbs', hbs({
     extname: 'hbs', 
@@ -19,6 +20,7 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.static(__dirname + '/public/'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 // development error handler
 // will print stacktrace

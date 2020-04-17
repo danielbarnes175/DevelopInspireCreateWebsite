@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000;
 const https = require('https');
 const fs = require('fs');
 
-const certificate = fs.readFileSync('developinspirecreate.com.crt');
-const privateKey = fs.readFileSync('developinspirecreate.com.key');
+const certificate = fs.readFileSync('developinspirecreate.com.crt.pem');
+const privateKey = fs.readFileSync('developinspirecreate.com.key.pem');
 app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 
@@ -52,9 +52,19 @@ if (app.get('env') === 'development') {
 const routes = require('./api/routes.js');
 
 routes(app);
-https.createServer({
-	key: privateKey,
-	cert: certificate
-}, app).listen(port, function() {
-	console.log(`Server started on port: ${port}`);
-});
+
+var options = {
+    key: privateKey,
+    cert: certificate
+};
+
+https.createServer(options, function (req, res) {
+    res.end('secure!');
+}).listen(443);
+
+// Redirect from http port 80 to https
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);

@@ -11,6 +11,10 @@
     list-style-type: none;
 }
 
+.blog-list a {
+    text-decoration: none;
+}
+
 .blog-post-card {
     text-decoration: none;
     color: white;

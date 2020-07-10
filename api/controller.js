@@ -75,6 +75,10 @@ const controllers = {
             res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false, authenticated: true}); 
         else
             res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false});
+    },
+    robots: function(req, res) {
+        res.type('text/plain');
+        res.sendFile('robots.txt');
     }
 };
 

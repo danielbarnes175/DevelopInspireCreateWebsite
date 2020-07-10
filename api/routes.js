@@ -23,6 +23,8 @@ module.exports = function(app) {
         .get(controller.blog);
     app.route('/verify')
         .get(controller.verify);
+    app.route('/robots.txt')
+        .get(controller.robots);
 
     // Admin pages
     app.route('/admin')

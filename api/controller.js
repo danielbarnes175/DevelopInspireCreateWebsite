@@ -5,6 +5,7 @@ const path = require('path');
 const EmailService = require('../services/EmailService.js');
 const AdminService = require('../services/AdminService.js');
 const YouTubeService = require('../services/YouTubeService.js');
+const NotifyService = require('../services/NotifyService.js');
 
 const controllers = {
     index: function (req, res) {
@@ -79,6 +80,18 @@ const controllers = {
     robots: function(req, res) {
         res.type('text/plain');
         res.sendFile('robots.txt');
+    },
+
+
+    notify: function(req, res) {
+        res.render('notify.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
+    },
+    sendNotification: function(req, res) {
+        NotifyService.notify();
+        res.render('notified.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
+    },
+    aboutNotify: function(req, res) {
+        res.render('notify-about.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
     }
 };
 

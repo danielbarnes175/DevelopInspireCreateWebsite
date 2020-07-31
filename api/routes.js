@@ -25,6 +25,12 @@ module.exports = function(app) {
         .get(controller.verify);
     app.route('/robots.txt')
         .get(controller.robots);
+    app.route('/notify')
+        .get(controller.notify);
+    app.route('/notify-about')
+        .get(controller.aboutNotify);
+    app.route('/sendNotification')
+        .get(controller.sendNotification);
 
     // Admin pages
     app.route('/admin')

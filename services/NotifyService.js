@@ -11,7 +11,7 @@ module.exports = {
         let rateResult = await axios.get(rateEndpoint);
 
         if (rateResult.data.remaining >= 100) {
-            await axios.post(endpoint);
+            axios.post(endpoint);
         }
         return;
     }

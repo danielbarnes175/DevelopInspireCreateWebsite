@@ -27,6 +27,8 @@ module.exports = function(app) {
         .get(controller.robots);
     app.route('/notify')
         .get(controller.notify);
+    app.route('/notify')
+        .post(controller.notifyPost);
     app.route('/notify-about')
         .get(controller.aboutNotify);
     app.route('/sendNotification')

@@ -1,7 +1,9 @@
 const axios = require('axios');
 const fs = require('fs');
+const url = require('url');
+
 module.exports = {
-    notify: async () => {
+    notify: async (res) => {
         let api_key = process.env.NOTIFY_API_KEY;
         let user_key = process.env.NOTIFY_USER_KEY;
         let message = 'Somebody is pushing all my buttons!';
@@ -13,6 +15,9 @@ module.exports = {
         if (rateResult.data.remaining >= 100) {
             axios.post(endpoint);
         }
-        return;
+        
+        res.redirect(url.format({
+            pathname:"/../sendNotification"
+        }));
     }
 }

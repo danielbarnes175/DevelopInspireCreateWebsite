@@ -82,13 +82,14 @@ const controllers = {
         res.sendFile('robots.txt');
     },
 
-
     notify: function(req, res) {
         res.render('notify.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
     },
-    sendNotification: function(req, res) {
-        NotifyService.notify();
-        res.render('notified.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
+    notifyPost: function(req, res) {
+        NotifyService.notify(res);
+    },
+    sendNotification: function(req, res) { 
+        res.render('notified.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false, cache: false});
     },
     aboutNotify: function(req, res) {
         res.render('notify-about.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});

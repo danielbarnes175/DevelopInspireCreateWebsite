@@ -1,0 +1,63 @@
+@media only screen and (max-width: 600px) {
+    .jumbo-heading {
+        font-size: 500%;
+        padding: 250px 0;
+    }
+    
+    .jumbo-subHeader {
+        font-size: 400%;
+        padding: 250px 0;
+    }
+
+    .jumbo-text {
+        font-size: 150%;
+    }
+
+    
+    .mini-text {
+        font-size: 300%;
+        margin: 3% 3%;
+    }
+
+    .myCenter {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align: center;
+    }
+  }
+
+.jumbo-heading {
+    font-size: 500%;
+    margin: 20% 0;
+}
+
+.jumbo-subHeader {
+    font-size: 400%;
+    margin: 20% 0;
+}
+
+.jumbo-text {
+    font-size: 150%;
+    margin: 3% 10%;
+    font-family: "Libre Baskerville",Georgia,serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.75;
+    color: #e4ede6
+}
+
+.mini-text {
+    font-size: 100%;
+    margin: 3% 10%;
+    font-family: "Libre Baskerville",Georgia,serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.75;
+    color: #e4ede6
+}
+
+.myCenter {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align: center;
+}

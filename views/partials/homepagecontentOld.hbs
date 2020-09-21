@@ -1,0 +1,83 @@
+<div class="background-secondary">
+    <div class="pad-left pad-right">
+        <h1>Develop yourself, Inspire others, and Create the perfect you</h1>
+        <h3 class="index-subhead">We're here to help you unlock your potential. We've compiled the best tips and resources for you to further your missions to develop, inspire, and create.</h3>
+    </div>
+</div>
+<div class="linebreak-big-margins"></div>
+<div class="index-container">
+    <div class="row">
+        <div class="content-card background-light-gray">
+            <center><h1>Develop</h1>
+            <p>Do you want to develop your skills?</p>
+            <img src="https://i.imgur.com/iyUqBfY.png" class="content-card-image" />
+            </center>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+            <a href="/blog?blog=1#top" onclick="return myScroll();"><h3>Top 5 Things I Wish I Knew Before Starting My Degree In Software Engineering</h3></a>
+            <p>A list of what's better to learn earlier than later in your Software Engineering degree.</p>
+            </div>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+                <a href="/blog?blog=3" onclick="return myScroll();"><h3>The Definitive Guide to Getting a Software Engineering Internship</h3></a>
+                <p>A complete resource that contains everything you could want in regards to getting your first internship.</p>
+            </div>
+        </div>
+        <div class="content-card">
+            <center><h1>Inspire</h1>
+            <p>Do you want some inspiration?</p>
+            <img src="https://i.imgur.com/FKX9cmt.png" class="content-card-image" />
+            </center>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+                <a href="/blog?blog=4" onclick="return myScroll();"><h3>You Can Do It - 5 Tips When You're Feeling Down</h3></a>
+                <p>Does it seem like you aren't achieving everything you initially set out to? Find out how to cope with it and fix it.</p>
+            </div>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+                <a href="/blog?blog=5" onclick="return myScroll();"><h3>How to Build and Foster Confidence in Your Life</h3></a>
+                <p>Gain the ability to be sure in what you do.</p>
+            </div>
+        </div>
+        <div class="content-card background-light-gray">
+            <center><h1>Create</h1>
+            <p>Do you want to create new things?</p>
+            <img src="https://i.imgur.com/djwq9ar.png" class="content-card-image" />
+            </center>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+                <a href="/blog?blog=6" onclick="return myScroll();"><h3>How to be Creative In a World That Tries To Take It Away</h3></a>
+                <p>Businesses don't get money from you being creative, they get money from you getting the job done. Find out how to do both!</p>
+            </div>
+            <div class="content-card-line"></div>
+            <div class="content-card-blog">
+                <a href="/blog?blog=7" onclick="return myScroll();"><h3>Tips and Tricks to Finding Your Passion</h3></a>
+                <p>Learn how to find what you love to do.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="linebreak-big-margins"></div>
+<center>
+    <h1>New Content Weekly</h1>
+    <h4 class="index-subhead">Videos, Blogs, and More!</h4>
+    <img class="logo-medium" src="images/DevelopInspireCreateCropped.png" />
+</center>
+<div class="newsletter-signup">
+        <h1>Sign up for the newsletter</h1>
+        <form action="/subscribe" method="post">
+            <input class="form-box" type="email" id="email" name="email" placeholder="Enter your email">
+            <input type="submit" class="button-primary" />
+        </form>
+        <p class="form-description">You'll receive news about the latest video releases, as well as other updates!</p>
+        <br><br>
+        {{#if attempted}}
+            {{#if result}}
+                <i class="fa fa-check"></i> Please check your email to verify your account!
+            {{else}}
+                <i class="fa fa-times"></i> Something went wrong. Try again later.
+            {{/if}}
+        {{else}}
+
+        {{/if}}
+    </div>

@@ -111,6 +111,10 @@ body {
 .background-light-gray {
     background: #323c4d;
 }
+
+.background-black {
+    background: black;
+}
 .button-primary:hover {
     background-color:darkred;
 }
@@ -146,7 +150,11 @@ body {
 }
 
 .footer {
-    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
     font-size: 1em;
-    margin: 0;
+}
+
+.footer-anchor {
+    color: cyan;
 }

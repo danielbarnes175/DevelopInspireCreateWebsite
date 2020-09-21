@@ -19,3 +19,45 @@
 .contact-list li a:hover {
     color: cyan;
 }
+
+.contact-list-horizontal {
+    list-style-type: none;
+    float: left;
+    padding: 0px;
+}
+
+.contact-list-horizontal li {
+    display: inline;
+    padding: 10px;
+}
+
+.contact-list-horizontal li a {
+    color: white;
+    text-decoration: none;
+}
+
+.contact-list-horizontal li a:hover {
+    color: cyan;
+}
+
+.project-list {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project-list li {
+    font-size: 24px;
+    margin: 10px 2px;
+    flex: 33%;
+    
+}
+
+.project-list li a {
+    color: white;
+    text-decoration: none;
+}
+
+.project-list li a:hover {
+    color: cyan;
+}

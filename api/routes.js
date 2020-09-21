@@ -34,6 +34,16 @@ module.exports = function(app) {
     app.route('/sendNotification')
         .get(controller.sendNotification);
 
+
+    app.route('/links')
+        .get(controller.links);
+    app.route('/develop')
+        .get(controller.develop);
+    app.route('/inspire')
+        .get(controller.inspire);
+    app.route('/create')
+        .get(controller.create);
+
     // Admin pages
     app.route('/admin')
         .get(controller.admin);

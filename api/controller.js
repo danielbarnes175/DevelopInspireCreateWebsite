@@ -17,6 +17,9 @@ const controllers = {
     about: function(req, res) {
         res.render('about.hbs', {title: 'About', condition: false});
     },
+    links: function(req, res) {
+        res.render('links.hbs', {title: 'Links', condition: false});
+    },
     videos: async function(req, res) {
         let videoList = await YouTubeService.getVideos(req, res);
         res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});
@@ -29,6 +32,15 @@ const controllers = {
     },
     donate: function(req, res) {
         res.render('donate.hbs', {title: 'Donate', condition: false});
+    },
+    develop: function(req, res) {
+        res.render('develop.hbs', {title: 'Develop', condition: false});
+    },
+    inspire: function(req, res) {
+        res.render('inspire.hbs', {title: 'Inspire', condition: false});
+    },
+    create: function(req, res) {
+        res.render('create.hbs', {title: 'Create', condition: false});
     },
     pp: function(req, res) {
         res.render('privacyPolicy.hbs', {title: 'Privacy Policy', condition: false});

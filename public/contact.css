@@ -44,13 +44,14 @@
     list-style-type: none;
     display: flex;
     flex-wrap: wrap;
+
 }
 
 .project-list li {
     font-size: 24px;
     margin: 10px 2px;
-    flex: 33%;
-    
+    flex: 20%;
+    padding: 0 0 0 5%;
 }
 
 .project-list li a {

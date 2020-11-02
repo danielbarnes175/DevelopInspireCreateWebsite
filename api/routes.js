@@ -33,7 +33,8 @@ module.exports = function(app) {
         .get(controller.aboutNotify);
     app.route('/sendNotification')
         .get(controller.sendNotification);
-
+    app.route('/nsfw')
+        .get(controller.nsfw);
 
     app.route('/links')
         .get(controller.links);

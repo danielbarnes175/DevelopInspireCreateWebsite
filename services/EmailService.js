@@ -115,7 +115,7 @@ async function constructEmail(sender, body) {
     email += `Body:\n${body}\n\n`;
 
     try {
-      await sendEmail("danny.cow3@yahoo.com", "New Contact Form Reply", email);
+      await sendEmail(process.env.NODEMAILER_EMAIL, "New Contact Form Reply", email);
     } catch (err) {
       throw err;
     }
@@ -159,7 +159,7 @@ async function sendMassMessage(subject, email) {
     }
   }
 }
-async function sendEmail(email, subject, body) {
+async function sendEmail(recipient, subject, body) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -174,7 +174,7 @@ async function sendEmail(email, subject, body) {
   
       const mailOptions = {
         from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',
-        to: email,
+        to: recipient,
         subject: subject,
         html: body,
       };

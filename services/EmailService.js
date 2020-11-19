@@ -7,7 +7,7 @@ module.exports = {
         if (req.body.body) {
           let result = true;
           try {
-            await constructEmail(req.body.user, req.body.body);
+            await constructEmail(req.body);
           } catch (err) {
             result = false;
           }
@@ -107,11 +107,11 @@ async function addUser(email, list) {
   sendEmail(email, subject, body);
   return true;
 }
-async function constructEmail(sender, body) {
+async function constructEmail({user, userEmail, body}) {
     let email = `Email submitted through form:\n\n`;
 
-    email += `User: ${sender}\n\n`;
-
+    email += `User: ${user}\n\n`;
+    email += `Contact Email: ${userEmail}\n\n`;
     email += `Body:\n${body}\n\n`;
 
     try {

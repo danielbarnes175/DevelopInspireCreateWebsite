@@ -24,6 +24,16 @@ body {
     margin-right: 25%;
 }
 
+@media only screen and (max-width: 600px) {
+    .pad-left {
+        margin-left: 5%;
+    }
+
+    .pad-right {
+        margin-right: 5%;
+    }
+  }
+
 .pad-top {
     margin-top: 15%;
 }

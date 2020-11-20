@@ -1,0 +1,70 @@
+<div class="blog"></div>
+<h1 class="pad-left pad-right">How Hackathons Create Technical Debt</h1>
+<div class="pad-left blog-heading"></div>
+<h4 class="pad-left pad-right blog-subhead">Why developers must always think of the future</h4>
+<img src="https://image.freepik.com/free-vector/business-failure-debt-cartoon-icon_1284-20323.jpg" class="pad-left pad-right blog-image" />
+<h2 class="pad-left pad-right">The Problem</h2>
+<p class="pad-left pad-right blog-paragraph">
+    Almost everyone knows what a hackathon is. You set out over the course of a week, or weekend, on a mission to put together a working solution for an idea you have. Depending on the time frame, your dedication, and external factors, you might finish the hackathon with a project in a demo-able state. Unfortunately, while doing this, you've likely ended up incurring a sizeable amount of technical debt.
+
+    <br><br>
+    What does this mean? It means that you've completed a project, but this project isn't maintable without extra work to "pay off" your technical debt. You've solved the main use case that you set out to solve during the hackathon, but what is next for the project? Is it something you will have to pass on to other developers? Is it something that could have additional features in order to be considered a fully functional product? If you want to continue to build on top of the codebase you created, you almost certainly will run into problems.
+
+    <br><br>
+    There's a reason software development takes time. Imagine the difference between creating a feature over three weeks versus creating it over three days during a hackathon. During the hackathon, you do whatever it takes to get the job done. You churn out line after line of code, oftentimes while tired and not putting significant thought into the design of your system. You might program a feature in a way that you know it isn't a good way of going about creating it, but it's fast, and well, you only have a limited amount of time before you have to demo. For the other scenario, where you're developing over three weeks, you're able to slow down and think about a better way to solve a problem. You won't necessarily have to use a "hacky" solution. Instead, you can take a day off of actually writing code, and instead grab a whiteboard and think about the design. You're able to consider multiple solutions, and the trade-offs between them. You're able to consider potential use cases beyond just the minimal viable product. You're able to create a project that is of higher quality than if you had created it like in the first scenario where you created it over three days.
+
+    <br><br>
+
+    Another analogy I like is with drawing a house. Imagine drawing a house in 10 seconds, 10 minutes, and 10 hours. Obviously, the 10 second drawing would be the worst, followed by the 10 minute one, followed by the 10 hour drawing. It is no surprise that putting more hours into something can lead to it being better, albeit with diminishing returns, so what is the primary concern with hackathons that lead to technical debt?
+
+    <br><br>
+
+    Hackathons don't have a long term vision.
+
+    <br><br>
+
+    When developing something for a hackathon, the primary focus is finishing it by the deadline. When developing a product normally, one of the goals is finishing it, yes, but the primary goal is to provide value to consumers. Providing value to consumers allows a product to generate income and stability. In order to complete your hackathon project, you're just developing the basic functionality for your idea. You're creating a proof of concept. You're just seeing if something is possible. You aren't thinking about marketability of the product, or how you're going to continue it, or how it is going to survive in the future. You choose the easy solution to get the job done, rather than the longer approach that would be better. That is, by definition, technical debt.
+</p>
+    <br>
+    <blockquote class="blog-blockquote pad-left pad-right">
+        Developing software at a hackathon has a fundamentally different goal than developing it outside of one. Realizing the long term vision of software is the key to creating a quality product.
+    </blockquote>
+    <br>
+<p class="pad-left pad-right blog-paragraph">
+    A year ago I ran into this problem with a project I initially started at a hackathon, <a href="https://github.com/danielbarnes175/FrameByFrame" class="footer-anchor">Frame By Frame</a>. Frame By Frame is a simple program for creating frame by frame animations with a long term vision of being a fully fledged animation program that is simple for casual or amateur animators to use. The project was first conceived at SquirrelHacks in November of 2019.
+
+    <br><br>
+
+    Creating a fully fledged animation program over the course of 36 hours is a pretty tall order. I choose to think of what the smallest subset of features would be needed to be completed in order to have this project be considered an animation program. There are two things an animation program needs: A way to draw multiple pictures, and a way to play, or animate those frames. The latter of the two is more important, but the former is a prerequisite for that.
+
+    <br><br>
+
+    So what did I do when I ran into a problem creating the drawing portion of the program? Well, I had limited time, so I moved on. What I had was "good enough", and I needed to move onto the more important part of the project. I knew that I was skimping on a feature because if I wanted to accomplish the goal I set out for, creating an animation program, I didn't really have a choice. I intentionally created technical debt.
+
+    <br><br>
+
+    A year later, and I've finally fixed most of the technical debt for the drawing portion of Frame By Frame. This year I've had other priorities such as school, work, and other committments, but it still took me a year to pay off this technical debt. In the end, I had to develop the drawing feature over again in the same way that I didn't worry about at the hackathon. Rather than just worrying about drawing, now I had to worry about features that depended on it such as the animation feature, or exporting. This ended up leading to even more work than if I had just chosen to solve the problem upfront. 
+
+ </p>
+ <h2 class="pad-left pad-right">The Solution</h2>
+ <p class="pad-left pad-right blog-paragraph">
+
+    So what is the solution to this technical debt brought forth by hackathons? The obvious answer is to not participate in hackathons, but that isn't a great answer. The better answer would be different depending on if you are a company running a hackathon for your employees or if you are an individual participating in a hackathon.
+
+    <br><br>
+
+    For businesses, it depends on what the intent is behind the hackathon. Do you have a more open ended focus, such as fostering creativity, and seeing what ideas employees might bring to the table? If that is the case, you might not be as worried about technical debt incurred from these hackathons. You might just be using the hackathon as a basis for seeing if there are any projects that could be viable for committing an entire team to. What if you are intending on adding these hackathon projects to your business? Technical debt is more of a problem in this case. The easiest solution to this is to have more of a focus on what is needed within this hackathon. A lot of companies have open ended goals for the hackathon like "develop a new feature for product x," but this leads to projects with large scopes that end up incurring a large amount of technical debt, or projects that don't add much value. Instead, try focusing on something like "improve unit test coverage to >95%," or "create a feature for x that accomplishes y". 
+
+    <br><br>
+
+    For individuals creating projects at a hackathon you need to be thinking of what is going to happen to this project. Are you doing it to learn a new framework? Are you doing this to kickstart a new product? What is the <em>long term vision</em> of the project? Make sure your scope is small enough that you are able to prioritize maintainability compared to features. Your project might not be everything you envision it to be, but you'll be able to work on it <em>after</em> the hackathon, and turn it into something closer to what you envision.
+</p>
+<blockquote class="blog-blockquote pad-left pad-right">
+        To avoid technical debt during a hackathon, limit your scope and find a focus that allows you to prioritize maintability over functionality.
+</blockquote>
+<br>
+<p class="pad-left pad-right blog-paragraph">
+    -Daniel Barnes
+    <br><br>
+    Opening image from <a href="https://www.freepik.com/free-vector/business-failure-debt-cartoon-icon_4385946.htm#page=1&query=debt&position=2" class="footer-anchor">Freepik</a>
+</p>

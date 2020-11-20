@@ -1,5 +1,5 @@
 .blog {
-    margin-top: 10%;
+    margin-top: 7%;
 }
 
 .blog-heading {
@@ -44,3 +44,32 @@
     color: #a1e1e1;
     text-transform: uppercase;
 }
+
+.blog-blockquote {
+    padding: 15px;
+    margin: 0 27%;
+    color: #e4ede6;
+    background-color: #332f2f;
+    border-left: 3px solid #88a5d6;
+    line-height: 1.75;
+}
+
+@media only screen and (max-width: 600px) {
+    .blog-image {
+        width: 50%;
+        height: auto;
+    }
+
+    .blog-list {
+        padding-left: 0;
+    }
+
+    .blog-blockquote {
+        padding: 15px;
+        margin: 0 7%;
+        color: #e4ede6;
+        background-color: #332f2f;
+        border-left: 3px solid #88a5d6;
+        line-height: 1.5;
+    }
+  }

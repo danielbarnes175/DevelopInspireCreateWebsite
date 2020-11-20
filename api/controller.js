@@ -53,7 +53,7 @@ const controllers = {
     },
     blog: function(req, res) {
         if (req.query && req.query.blog)
-            res.render(`blogs/blog${req.query.blog}.hbs`, {title: 'Blog Post', condition: false});
+            res.render(`blogs/${req.query.blog}.hbs`, {title: 'Blog Post', condition: false});
         else
             res.render('blogs/blogIndex.hbs', {title: 'Blog Posts', condition: false});
     },

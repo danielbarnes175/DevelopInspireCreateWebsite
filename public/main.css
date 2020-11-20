@@ -32,6 +32,12 @@ body {
     .pad-right {
         margin-right: 5%;
     }
+
+    .footer {
+        margin-left: 3%;
+        margin-right:3%;
+        font-size: 1em;
+    }
   }
 
 .pad-top {

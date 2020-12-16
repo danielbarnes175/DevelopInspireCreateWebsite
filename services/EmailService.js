@@ -1,6 +1,11 @@
 const nodemailer = require('nodemailer');
 const url = require('url');
 const fs = require('fs');
+const path = require('path');
+const Handlebars = require('handlebars');
+
+const requireHtml = relativePath => fs.readFileSync(path.resolve(__dirname, relativePath), 'utf8');
+const emailTemplate = requireHtml('../views/partials/email.hbs');
 
 module.exports = {
     submitEmail: async function (req, res) {
@@ -26,6 +31,7 @@ module.exports = {
         try {
           await sendMassMessage(req.body.subject, req.body.body);
         } catch (err) {
+          console.log(err);
           result = false;
         }
         res.redirect(url.format({
@@ -120,7 +126,7 @@ async function constructEmail({user, userEmail, body}) {
       throw err;
     }
 }
-async function sendMassMessage(subject, email) {
+async function sendMassMessage(subject, body) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -143,7 +149,15 @@ async function sendMassMessage(subject, email) {
   let numUsers = Object.keys(maillist.users).length;
   let users = Object.keys(maillist.users);
   for (let i = 0; i < numUsers; i++) {
-    let user = users[i];
+    let user = users[i]
+    let context = {
+      heading: subject,
+      body: body,
+      user: user
+    }
+
+    let email = Handlebars.compile(emailTemplate)(context);
+
     if (!maillist.users[user].verified) continue;
     const mailOptions = {
       from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',

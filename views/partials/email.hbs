@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”>
+<html xmlns=“https://www.w3.org/1999/xhtml”>
+<head>
+    <title>Test Email Sample</title>
+    <meta http–equiv=“Content-Type” content=“text/html; charset=UTF-8” />
+    <meta http–equiv=“X-UA-Compatible” content=“IE=edge” />
+    <meta name=“viewport” content=“width=device-width, initial-scale=1.0 “ />
+
+    <style>
+        html {
+            color: black;
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            background-color: white;
+            height: 100%;
+            margin: 0;
+        }
+
+        .myCenter {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align: center;
+        }
+
+        .logo-small {
+            margin-top: 1%;
+            width: 25%;
+            height: 100%;
+        }
+
+        .content {
+
+        }
+
+        .linebreak {
+            margin: 20px 40% 0 40%;
+            border-bottom: 2px solid #eeeeee;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.5em;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="myCenter">
+        <img class="logo-small" alt="Develop Inspire Create" title="DevelopInspireCreate" src="https://www.developinspirecreate/logo">
+    </div>
+    <div class="content">
+        <h1>{{{ heading }}}</h1>
+        <p>{{{ body }}}</p>
+    </div>
+
+    <div class="linebreak"></div>
+    <div class="footer">
+        <p>This message was brought to you by the Develop Inspire Create mail list.</p>
+        <p>If you no longer wish to receive these emails, you may <a href="https://www.developinspirecreate.com/unsubscribe?user={{{ user }}}">unsubscribe</a> at any time.</p>
+    </div>
+</div>

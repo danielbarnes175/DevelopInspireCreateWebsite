@@ -23,6 +23,8 @@ module.exports = function(app) {
         .get(controller.inspire);
     app.route('/links')
         .get(controller.links);
+    app.route('/logo')
+        .get(controller.logo);
     app.route('/notify')
         .get(controller.notify);
     app.route('/notify')

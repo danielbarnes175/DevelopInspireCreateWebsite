@@ -20,6 +20,9 @@ const controllers = {
     links: function(req, res) {
         res.render('links.hbs', {title: 'Links', condition: false});
     },
+    logo: function(req, res) {
+        res.sendFile(path.resolve("public/images/DevelopInspireCreate.png"));
+    },
     videos: async function(req, res) {
         let videoList = await YouTubeService.getVideos(req, res);
         res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});

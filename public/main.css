@@ -24,16 +24,6 @@ body {
     margin-right: 25%;
 }
 
-@media only screen and (max-width: 600px) {
-    .pad-left {
-        margin-left: 5%;
-    }
-
-    .pad-right {
-        margin-right: 5%;
-    }
-  }
-
 .pad-top {
     margin-top: 15%;
 }
@@ -91,7 +81,7 @@ body {
 
 .logo-medium {
     margin-top: 1%;
-    width: 50%;
+    width: 40%;
     height: 100%;
 }
 
@@ -153,18 +143,30 @@ body {
     background-color:#595979;
 }
 
-
 .form-description {
     margin: 10px 40% 0 40%;
-    font-family: "Roboto"
 }
 
 .footer {
-    margin-left:auto;
-    margin-right:auto;
+    text-align: center;
     font-size: 1em;
+    margin: 0;
 }
 
 .footer-anchor {
     color: cyan;
 }
+
+@media only screen and (max-width: 600px) {
+    .pad-left {
+        margin-left: 5%;
+    }
+
+    .pad-right {
+        margin-right: 5%;
+    }
+
+    .form-description {
+        margin: 10px 15% 0 15%;
+    }
+  }

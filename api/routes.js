@@ -35,6 +35,8 @@ module.exports = function(app) {
         .get(controller.nsfw);
     app.route('/pp')
         .get(controller.pp);
+    app.route('/products')
+        .get(controller.products);
     app.route('/robots.txt')
         .get(controller.robots);
     app.route('/sendNotification')

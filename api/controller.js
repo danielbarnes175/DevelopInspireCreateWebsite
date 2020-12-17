@@ -48,6 +48,9 @@ const controllers = {
     pp: function(req, res) {
         res.render('privacyPolicy.hbs', {title: 'Privacy Policy', condition: false});
     },
+    products: function(req, res) {
+        res.render('products.hbs', {title: 'Products'});
+    },
     sendEmail: function(req, res) {
         EmailService.submitEmail(req, res);
     },

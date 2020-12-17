@@ -83,6 +83,7 @@ module.exports = {
       if (maillist.users[req.body.email])
         delete maillist.users[req.body.email];
 
+      console.log(maillist.users[req.body.email]);
       await fs.writeFile(filename, JSON.stringify(maillist, null, 2), err => {
         if (err) throw err;
       })

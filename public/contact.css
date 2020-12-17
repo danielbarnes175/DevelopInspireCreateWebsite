@@ -12,12 +12,12 @@
 }
 
 .contact-list li a {
-    color: white;
+    color: #73777c;
     text-decoration: none;
 }
 
 .contact-list li a:hover {
-    color: cyan;
+    color: rgb(35, 37, 37);
 }
 
 .contact-list-horizontal {
@@ -32,12 +32,12 @@
 }
 
 .contact-list-horizontal li a {
-    color: white;
+    color: #73777c;
     text-decoration: none;
 }
 
 .contact-list-horizontal li a:hover {
-    color: cyan;
+    color: rgb(35, 37, 37);
 }
 
 .project-list {
@@ -55,10 +55,10 @@
 }
 
 .project-list li a {
-    color: white;
+    color: #73777c;
     text-decoration: none;
 }
 
 .project-list li a:hover {
-    color: cyan;
+    color: rgb(35, 37, 37);
 }

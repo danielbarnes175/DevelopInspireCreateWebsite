@@ -1,7 +1,5 @@
 html {
-    color: white;
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    background-color: black;
     height: 100%;
     margin: 0;
 }
@@ -10,6 +8,10 @@ html {
     min-height: 100%;
     display: grid;
     grid-template-rows: auto 1fr auto;
+}
+
+.container {
+    width: 100%;
 }
 
 body {
@@ -30,32 +32,43 @@ body {
 
 .navbar {
     text-decoration: none;
-    color: white;
-    font-family: "Roboto Black";
+    box-shadow: 0 2px 5px rgba(0,0,0,.09);
 }
 
-.navbar-list {
-    display: inline;
-    text-align: center;
-    list-style-type: none;
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    overflow: wrap;
 }
-.navbar-list li {
-    padding-left:30px;
-    padding-right:30px;
-    float: center;
+.navbar-list {
+    flex: 50%;
+    float: right;
+    text-align: right;
+    list-style-type: none;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.navbar-list li .navbar-list-logo li {
+    padding: 0px 20px 10px 30px;
+}
+
+.navbar-logo {
+    flex: 33%;
+    text-align: left;
+    padding-left: 0;
 }
 
 .navbar a {
     text-decoration: none;
-    color: white;
-    margin-left:10px;
-    margin-right:10px;
+    margin: 0 10px;
+    color: #73777c;
 }
 
 .navbar a:hover {
-    color: cyan;
-    padding-bottom: 3px;
-    border-bottom: 3px solid #fff;
+    color: rgb(35, 37, 37);
+    padding-bottom: 12px;
+    border-bottom: 3px solid rgb(208, 255, 0);
 }
 
 .linebreak {
@@ -106,10 +119,11 @@ body {
     background-color: red;
     border: 1px solid black;
     padding: 8px;
+    margin: 2px;
     border-radius: 3px;
 }
 .background-light-gray {
-    background: #323c4d;
+    background: #f3f3f4;
 }
 
 .background-black {
@@ -133,7 +147,7 @@ body {
 
 .button-tertiary {
     color: white;
-    background-color: #88a5d6;
+    background-color: #225abb;
     border: 1px solid black;
     padding: 8px;
     border-radius: 3px;
@@ -154,7 +168,28 @@ body {
 }
 
 .footer-anchor {
-    color: cyan;
+    color: rgb(123, 88, 250);
+}
+
+@media only screen and (max-width: 1250px) {
+    .pad-left {
+        margin-left: 10%;
+    }
+
+    .pad-right {
+        margin-right: 10%;
+    }
+
+    .navbar-container { 
+        flex-direction: column;
+    }
+
+    .navbar-list {
+        flex: 100%;
+        float: center;
+        text-align: center;
+        padding-left: 0;
+    }
 }
 
 @media only screen and (max-width: 600px) {

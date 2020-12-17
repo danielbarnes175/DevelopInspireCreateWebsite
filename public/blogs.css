@@ -17,13 +17,13 @@
 
 .blog-post-card {
     text-decoration: none;
-    color: white;
+    color: #73777c;
     border: 1px solid gray;
     padding: 10px;
     margin-bottom: 7px;
 }
 .blog-post-card:hover {
-    color: cyan;
+    color: rgb(35, 37, 37);
 }
 
 .blog-paragraph {
@@ -32,7 +32,6 @@
     -webkit-font-smoothing: antialiased;
     font-weight: 500;
     line-height: 1.75;
-    color: #e4ede6
 }
 
 .blog-image {
@@ -41,16 +40,15 @@
 }
 
 .blog-subhead {
-    color: #a1e1e1;
+    color: #2c2c2c;
     text-transform: uppercase;
 }
 
 .blog-blockquote {
     padding: 15px;
     margin: 0 27%;
-    color: #e4ede6;
-    background-color: #332f2f;
-    border-left: 3px solid #88a5d6;
+    background-color: #f9f9f9;
+    border-left: 3px solid #ccc;
     line-height: 1.75;
 }
 

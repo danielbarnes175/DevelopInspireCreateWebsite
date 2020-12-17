@@ -56,7 +56,8 @@ module.exports = {
       else if (!maillist.users[req.body.email].verified) {
         let subject = "Please verify your email with DevelopInspireCreate.com!"
         let body = "www.DevelopInspireCreate.com/verify?id=" + maillist.users[req.body.email].id;
-        sendEmail(req.body.email, subject, body);
+        let heading = "Please verify your email:";
+        sendEmail(req.body.email, subject, body, heading);
         result = true;
       }
       else
@@ -69,6 +70,16 @@ module.exports = {
              "attempted": true, 
            }
       }));
+    },
+    unregisterEmail: async function (req, res) {
+      let maillist;
+      if (process.env.DEPLOYMENT === "PRODUCTION") {
+        maillist = JSON.parse(fs.readFileSync('resources/prodMailList.json', 'utf8'))
+      } else {
+        maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
+      }
+      if (maillist.users[req.body.email])
+        delete maillist.users[req.body.email];
     },
     verifyId: async function (id) {
         if (process.env.DEPLOYMENT === "PRODUCTION") {
@@ -110,7 +121,8 @@ async function addUser(email, list) {
   // Send verification email
   let subject = "Please verify your email with DevelopInspireCreate.com!"
   let body = "www.DevelopInspireCreate.com/verify?id=" + id;
-  sendEmail(email, subject, body);
+  let heading = "Please verify your email:"
+  sendEmail(email, subject, body, heading);
   return true;
 }
 async function constructEmail({user, userEmail, body}) {
@@ -173,7 +185,7 @@ async function sendMassMessage(subject, body) {
     }
   }
 }
-async function sendEmail(recipient, subject, body) {
+async function sendEmail(recipient, subject, body, heading) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -186,11 +198,19 @@ async function sendEmail(recipient, subject, body) {
         },
       });
   
+      let context = {
+        heading: heading || subject,
+        user: recipient,
+        body: body
+      }
+
+      let email = Handlebars.compile(emailTemplate)(context);
+
       const mailOptions = {
         from: 'DevelopInspireCreate <no-reply@DevelopInspireCreate.com>',
         to: recipient,
         subject: subject,
-        html: body,
+        html: email,
       };
   
       try {

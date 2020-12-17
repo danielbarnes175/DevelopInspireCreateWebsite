@@ -54,6 +54,10 @@ const controllers = {
     subscribe: function(req, res) {
         EmailService.registerEmail(req, res);
     },
+    unsubscribe: function(req, res) {
+        EmailService.unregisterEmail(req, res);
+        res.render('unsubscribe.hbs', {title: 'Unsubscribe'});
+    },
     blog: function(req, res) {
         if (req.query && req.query.blog)
             res.render(`blogs/${req.query.blog}.hbs`, {title: 'Blog Post', condition: false});

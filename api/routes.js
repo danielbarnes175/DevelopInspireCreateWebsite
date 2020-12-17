@@ -41,6 +41,8 @@ module.exports = function(app) {
         .get(controller.sendNotification);
     app.route('/subscribe')
         .post(controller.subscribe);
+    app.route('/unsubscribe')
+        .get(controller.unsubscribe);
     app.route('/verify')
         .get(controller.verify);
     app.route('/videos')

@@ -72,12 +72,18 @@ module.exports = {
       }));
     },
     unregisterEmail: async function (req, res) {
-      let maillist = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
+      let maillist;
+      if (process.env.DEPLOYMENT === "PRODUCTION") {
+        maillist = JSON.parse(fs.readFileSync('resources/prodMailList.json', 'utf8'))
+      } else {
+        maillist = JSON.parse(fs.readFileSync('resources/devMailList.json', 'utf8'))
+      }
+      let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
 
       if (maillist.users[req.body.email])
         delete maillist.users[req.body.email];
 
-      await fs.writeFile(maillist, JSON.stringify(list, null, 2), err => {
+      await fs.writeFile(filename, JSON.stringify(maillist, null, 2), err => {
         if (err) throw err;
       })
     },

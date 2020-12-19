@@ -27,31 +27,45 @@ app.use(express.static(__dirname + '/public/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: err
-      });
-    });
-  }
-  
-  // production error handler
-  // no stacktraces leaked to user
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {}
-    });
-  });
+// Handle 404
+// app.use(function(req, res) {
+//   res.status(404).render('404.hbs');
+// });
+
+// // Handle 500
+// app.use(function(error, req, res, next) {
+//   res.send('500: Internal Server Error', 500);
+// });
 
 const routes = require('./api/routes.js');
 
 routes(app);
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('404.hbs', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('404.hbs', {
+    message: err.message,
+    error: {}
+  });
+});
+
+app.use(function(req, res, next){
+  res.status(404).render('404.hbs');
+});
 
 var options = {
     key: privateKey,

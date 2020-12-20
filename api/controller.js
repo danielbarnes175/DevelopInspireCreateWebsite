@@ -6,6 +6,8 @@ const EmailService = require('../services/EmailService.js');
 const AdminService = require('../services/AdminService.js');
 const YouTubeService = require('../services/YouTubeService.js');
 const NotifyService = require('../services/NotifyService.js');
+const BlogService = require('../services/BlogService.js');
+const { getBlogTitle } = require('../services/BlogService.js');
 
 const controllers = {
     index: function (req, res) {
@@ -61,11 +63,15 @@ const controllers = {
         EmailService.unregisterEmail(req, res);
         res.render('unsubscribe.hbs', {title: 'Unsubscribe'});
     },
-    blog: function(req, res) {
-        if (req.query && req.query.blog)
-            res.render(`blogs/${req.query.blog}.hbs`, {title: 'Blog Post', condition: false});
-        else
-            res.render('blogs/blogIndex.hbs', {title: 'Blog Posts', condition: false});
+    blog: async (req, res) => {
+        if (req.query && req.query.blog) {
+            let title = await BlogService.getBlogTitle(req.query.blog);
+            res.render(`blogs/${req.query.blog}.hbs`, {title: title});
+        }
+        else {
+            let blogList = await BlogService.getBlogs();
+            res.render('blogs/blogIndex.hbs', {title: 'Blog Posts', blogs: blogList});
+        }
     },
     verify: function(req, res) {
         let id = req.query.id;

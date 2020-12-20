@@ -131,7 +131,7 @@
 }
 @media only screen and (max-width: 650px) {
     .index-container {
-        margin: 0;
+        margin: 0 10%;
     }
 
     .content-card {
@@ -148,5 +148,11 @@
         max-width: 100%;
         max-height: 100vh;
         margin: auto;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
+    .index-container {
+        margin: 0;
     }
   }

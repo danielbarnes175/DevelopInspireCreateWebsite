@@ -9,9 +9,8 @@ module.exports = {
           
             let blogPostFiles = files.filter(f => f.split('.').pop() === 'hbs');
           
-            blogPostFiles.forEach(async (f, i) => {
+            blogPostFiles.reverse().forEach(async (f, i) => {
               f = f.replace(".hbs", "");
-              console.log(f);
               if (f === "blogIndex") return;
 
               let blogTitle = await module.exports.getBlogTitle(f);
@@ -23,12 +22,12 @@ module.exports = {
               blogs.push(blog);
             });
         });
-        
+
         return blogs;
     },
 
     getBlogTitle: async (filename) => {
-        let title = filename.split('-').join(' ');
+        let title = filename.split('-').slice(4).join(' ');
         return title;
     }
 }

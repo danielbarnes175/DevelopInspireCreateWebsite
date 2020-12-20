@@ -1,6 +1,7 @@
 <center>
     <h1>Blog Posts</h1>
     <ul class="blog-list pad-left pad-right">
+        <!-- Files must in in views/blogs and the naming format must be YYYY-MM-DD-T-My-Title.hbs, where T is the category D/I/C -->
         {{#each blogs}}
             <a href="/blog?blog={{ this.filename }}"><li class="blog-post-card">{{ this.title }}</li></a>
         {{/each}}

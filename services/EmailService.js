@@ -142,6 +142,8 @@ async function constructEmail({user, userEmail, body}) {
     email += `Contact Email: ${userEmail}\n\n`;
     email += `Body:\n${body}\n\n`;
 
+    email = sanitize(email);
+    
     try {
       await sendEmail(process.env.NODEMAILER_EMAIL, "New Contact Form Reply", email);
     } catch (err) {
@@ -239,4 +241,17 @@ function generateId() {
     arr[Math.floor(Math.random() * arr.length)]; 
   } 
   return ans;
+}
+
+function sanitize(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
 }

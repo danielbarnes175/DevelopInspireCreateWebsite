@@ -2,12 +2,12 @@
 <div class="pad-left">
     <h2>Send me an email: </h2><br>
     <form action="/contact/send" method="post">
+        <input style="display: none;" name="extraForm" id="extraForm" type="text">
         <label for="name">Your name:</label>
         <br><input name="user" id="name" class="form-input" type="text"><br>
         <br><label for="userEmail">Your email:</label>
         <br><input type = "email" name="userEmail" id="userEmail" class="form-input" type="text"><br>
-        <br><label for="contactBody">Your message:</label>
-        <br>
+        <br><label for="contactBody">Your message:</label><br>
         <textarea name="body" id="contactBody" class="form-input" rows="5" cols="40"></textarea>
         <br><input type="submit" class="button-primary" />
         {{#if attempted}}

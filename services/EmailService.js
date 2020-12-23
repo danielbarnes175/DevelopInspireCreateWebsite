@@ -9,7 +9,16 @@ const emailTemplate = requireHtml('../views/partials/email.hbs');
 
 module.exports = {
     submitEmail: async function (req, res) {
-        if (req.body.body) {
+        if (req.body.extraForm) {
+          res.redirect(url.format({
+            pathname:"/../../contact",
+            query: {
+               "result": false,
+               "attempted": false
+             }
+          }));
+        }
+        else if (req.body.body) {
           let result = true;
           try {
             await constructEmail(req.body);

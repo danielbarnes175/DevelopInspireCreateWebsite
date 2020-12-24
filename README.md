@@ -5,7 +5,7 @@ This repository is where we (Develop Inspire Create) hold the open source versio
 
 ![](public/images/DevelopInspireCreateBG.png)
 
-### Our Mission?
+### Our Mission
 Our mission is to help aspiring Software Engineers become the best they possibly can, and give them guidance in their journey into the field. There is a lot of career advice out there, but a lot of it isn't great. We want to provide a one stop shop where developers can go and have all of their questions answered.
 
 ### How can I help?  

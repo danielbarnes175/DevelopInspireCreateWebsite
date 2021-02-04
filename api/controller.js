@@ -1,6 +1,7 @@
 'use strict';
 const properties = require('../package.json');
 const path = require('path');
+const sanitize = require('santize-filename');
 
 const EmailService = require('../services/EmailService.js');
 const AdminService = require('../services/AdminService.js');
@@ -66,7 +67,8 @@ const controllers = {
     blog: async (req, res) => {
         if (req.query && req.query.blog) {
             let title = await BlogService.getBlogTitle(req.query.blog);
-            res.render(`blogs/${req.query.blog}.hbs`, {title: title});
+            let filename = sanitize(req.query.blog);
+            res.render(`blogs/${filename}.hbs`, {title: title});
         }
         else {
             let blogList = await BlogService.getBlogs();

@@ -14,6 +14,10 @@ html {
     width: 100%;
 }
 
+.container-flex {
+    display: flex;
+}
+
 body {
     margin: 0 0 0 0;
 }

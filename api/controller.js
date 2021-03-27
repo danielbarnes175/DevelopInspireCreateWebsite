@@ -1,7 +1,7 @@
 'use strict';
 const properties = require('../package.json');
 const path = require('path');
-const sanitize = require('santize-filename');
+const sanitize = require('sanitize-filename');
 
 const EmailService = require('../services/EmailService.js');
 const AdminService = require('../services/AdminService.js');
@@ -53,6 +53,9 @@ const controllers = {
     },
     products: function(req, res) {
         res.render('products.hbs', {title: 'Products'});
+    },
+    projects: function(req, res) {
+        res.render('projects.hbs', {title: 'Cool Stuff'});
     },
     sendEmail: function(req, res) {
         EmailService.submitEmail(req, res);

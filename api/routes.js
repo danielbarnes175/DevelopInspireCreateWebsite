@@ -37,6 +37,8 @@ module.exports = function(app) {
         .get(controller.pp);
     app.route('/products')
         .get(controller.products);
+    app.route('/projects')
+        .get(controller.projects);
     app.route('/robots.txt')
         .get(controller.robots);
     app.route('/sendNotification')

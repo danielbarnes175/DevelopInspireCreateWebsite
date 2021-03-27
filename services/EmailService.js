@@ -147,7 +147,7 @@ async function constructEmail({user, userEmail, body}) {
     try {
       await sendEmail(process.env.NODEMAILER_EMAIL, "New Contact Form Reply", email);
     } catch (err) {
-      throw err;
+      console.log(err);
     }
 }
 async function sendMassMessage(subject, body) {
@@ -193,7 +193,7 @@ async function sendMassMessage(subject, body) {
     try {
       await transporter.sendMail(mailOptions);
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   }
 }
@@ -228,7 +228,7 @@ async function sendEmail(recipient, subject, body, heading) {
       try {
         await transporter.sendMail(mailOptions);
       } catch (error) {
-        throw error;
+        console.log(error);
       }
 }
 

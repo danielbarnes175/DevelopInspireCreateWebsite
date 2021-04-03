@@ -20,10 +20,6 @@
     flex: 50%;
 }
 
-.yt-thumbnail {
-    
-}
-
 @media only screen and (max-width: 1000px) {
     .card {
       width: 100%;

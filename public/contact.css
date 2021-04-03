@@ -42,16 +42,15 @@
 
 .project-list {
     list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-
+    display: inline-block;
+    padding: 0;
 }
 
 .project-list li {
     font-size: 24px;
-    margin: 10px 2px;
-    flex: 20%;
-    padding: 0 0 0 5%;
+    margin: 0 2px;
+    padding: 5px 0;
+    text-align: left;
 }
 
 .project-list li a {

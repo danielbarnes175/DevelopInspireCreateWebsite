@@ -27,15 +27,28 @@ app.use(express.static(__dirname + '/public/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
-// Handle 404
-// app.use(function(req, res) {
-//   res.status(404).render('404.hbs');
-// });
-
-// // Handle 500
-// app.use(function(error, req, res, next) {
-//   res.send('500: Internal Server Error', 500);
-// });
+// Logging middleware
+app.use(function(req, res, next) {
+  let current_datetime = new Date();
+  let formatted_date =
+    current_datetime.getFullYear() +
+    "-" +
+    (current_datetime.getMonth() + 1) +
+    "-" +
+    current_datetime.getDate() +
+    " " +
+    current_datetime.getHours() +
+    ":" +
+    current_datetime.getMinutes() +
+    ":" +
+    current_datetime.getSeconds();
+  let method = req.method;
+  let url = req.url;
+  let status = res.statusCode;
+  let log = `[${formatted_date}]: ${status} ${method} ${url}`;
+  console.log(log);
+  next();
+});
 
 const routes = require('./api/routes.js');
 
@@ -77,3 +90,5 @@ https.createServer(options, app).listen(443);
 // Redirect from http port 80 to https
 var http = require('http');
 http.createServer(app).listen(80);
+
+console.log("Server Running");

@@ -110,6 +110,9 @@ const controllers = {
         else
             res.render('admin/addProject.hbs', {title: 'Create New Project', condition: false});
     },
+    resume: function(req, res) {
+        res.render('resume.hbs', {title: 'Resume'});
+    },
     robots: function(req, res) {
         res.type('text/plain');
         res.sendFile('robots.txt');

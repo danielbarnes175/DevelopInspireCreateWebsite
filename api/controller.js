@@ -128,7 +128,7 @@ const controllers = {
         res.render('notify-about.hbs', {title: 'NotifyMe', layout: 'notifyMeLayout', condition: false});
     },
     nsfw: function(req, res) {
-        
+        res.render('nsfw.hbs', {title: '( ಠ◡ಠ )'});
     }
 };
 

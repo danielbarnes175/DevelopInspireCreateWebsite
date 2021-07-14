@@ -9,7 +9,7 @@ const emailTemplate = requireHtml('../views/partials/email.hbs');
 
 module.exports = {
     submitEmail: async function (req, res) {
-        if (req.body.extraForm) {
+        if (req.body.extraForm || req.body.math !== '4') {
           res.redirect(url.format({
             pathname:"/../../contact",
             query: {

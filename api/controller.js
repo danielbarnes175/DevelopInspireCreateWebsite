@@ -71,7 +71,13 @@ const controllers = {
         if (req.query && req.query.blog) {
             let title = await BlogService.getBlogTitle(req.query.blog);
             let filename = sanitize(req.query.blog);
-            res.render(`blogs/${filename}.hbs`, {title: title});
+            res.render(`blogs/${filename}.hbs`, {title: title}, (err, html) => {
+                if (err) {
+                    res.render(`blogs_tech/${filename}.hbs`, {title: title});
+                } else {
+                    res.send(html);
+                }
+            });
         }
         else {
             let blogList = await BlogService.getBlogs();

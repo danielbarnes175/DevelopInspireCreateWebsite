@@ -10,10 +10,13 @@
 .blog-list {
     list-style-type: none;
     padding-left: 0;
+    padding-inline-start: 0;
 }
 
 .blog-list a {
     text-decoration: none;
+    padding-left: 0;
+    padding-inline-start: 0;
 }
 
 .blog-post-card {

@@ -31,7 +31,7 @@ const controllers = {
         res.render('videos.hbs', {title: 'Videos', condition: false, videos: videoList});
     },
     contact: function(req, res) {
-        let scripts = [{script: 'https://www.google.com/recaptcha/api.js?render=6Le7JK0bAAAAADV3P6ZDDOXJHJImPrefIVghEs_7'}, {script: '/js/onClickRecaptchaHelper.js'}];
+        let scripts = [{script: 'https://www.google.com/recaptcha/api.js?render=6Le7JK0bAAAAADV3P6ZDDOXJHJImPrefIVghEs_7'}];
         if (req.query)
             res.render('contact.hbs', {title: 'Contact', condition: false, attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true'), scripts: scripts});
         else

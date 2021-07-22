@@ -6,6 +6,7 @@ const Handlebars = require('handlebars');
 const axios = require('axios');
 const requireHtml = relativePath => fs.readFileSync(path.resolve(__dirname, relativePath), 'utf8');
 const emailTemplate = requireHtml('../views/partials/email.hbs');
+const { logError } = require('./services/LoggingService.js');
 
 module.exports = {
   submitEmail: async function (req, res) {
@@ -94,7 +95,7 @@ module.exports = {
       delete maillist.users[req.query.email];
 
     await fs.writeFile(filename, JSON.stringify(maillist, null, 2), err => {
-      if (err) throw err;
+      if (err) logError(err);
     })
   },
   verifyId: async function (id) {
@@ -116,7 +117,7 @@ module.exports = {
 
       let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
       await fs.writeFile(filename, JSON.stringify(maillist, null, 2), err => {
-        if (err) throw err;
+        if (err) logError(err);
       })
 
       break;
@@ -132,7 +133,7 @@ async function addUser(email, list) {
 
   let filename = process.env.DEPLOYMENT === "PRODUCTION" ? 'resources/prodMailList.json' : 'resources/devMailList.json';
   await fs.writeFile(filename, JSON.stringify(list, null, 2), err => {
-    if (err) throw err;
+    if (err) logError(err);
   })
   // Send verification email
   let subject = "Please verify your email with DevelopInspireCreate.com!"

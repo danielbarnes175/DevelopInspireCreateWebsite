@@ -6,7 +6,7 @@ const Handlebars = require('handlebars');
 const axios = require('axios');
 const requireHtml = relativePath => fs.readFileSync(path.resolve(__dirname, relativePath), 'utf8');
 const emailTemplate = requireHtml('../views/partials/email.hbs');
-const { logError } = require('./services/LoggingService.js');
+const { logError } = require('./LoggingService.js');
 
 module.exports = {
   submitEmail: async function (req, res) {

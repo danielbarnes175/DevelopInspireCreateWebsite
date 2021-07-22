@@ -9,6 +9,7 @@ const favicon = require('serve-favicon');
 const port = process.env.PORT || 3000;
 const https = require('https');
 const fs = require('fs');
+const axios = require('axios');
 
 const certificate = fs.readFileSync('developinspirecreate.com.crt');
 const privateKey = fs.readFileSync('developinspirecreate.com.key');
@@ -71,6 +72,20 @@ const logging = (req, res) => {
   let method = req.method;
   let url = req.url;
   let status = res.statusCode;
+
+  // Console Log
   let log = `[${formatted_date}]: ${status} ${method} ${url}`;
   console.log(log);
+
+  // Discord Webhook Log
+  log = {
+    "embeds": [
+      {
+        "description": `**[${formatted_date}]: ${status} ${method} ${url}**`,
+        "color": 15258703,
+      }
+    ]
+  }
+
+  axios.post(process.env.DISCORD_WEBHOOK_URL, log);
 }

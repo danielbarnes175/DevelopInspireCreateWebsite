@@ -132,7 +132,7 @@ const controllers = {
         res.render('notify.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', condition: false });
     },
     notifyPost: function (req, res) {
-        NotifyService.notify(res);
+        NotifyService.notify(req, res);
     },
     sendNotification: function (req, res) {
         res.render('notified.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', condition: false, cache: false });

@@ -54,6 +54,10 @@ module.exports = function(app) {
     app.route('/videos')
         .get(controller.videos);
 
+    // Life simulator
+    app.route('/lifeSimulator')
+        .get(controller.lifeSimulator);
+
     // Admin pages
     app.route('/addProject/:authentication_token')
         .get(controller.addProject);

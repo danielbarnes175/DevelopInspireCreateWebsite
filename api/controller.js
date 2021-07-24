@@ -142,6 +142,13 @@ const controllers = {
     },
     nsfw: function (req, res) {
         res.render('nsfw.hbs', { title: '( ಠ◡ಠ )' });
+    },
+
+    // Life Simulator
+    lifeSimulator: function (req, res) {
+        let scripts = [{ script: 'js/LifeSimulator/LifeSimulatorService.js' }];
+        res.render('lifeSimulator/lifeSimulator.hbs', { title: 'Life Simulator', scripts: scripts, onLoad: 'initialSetup()' });
+        
     }
 };
 

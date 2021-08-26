@@ -64,6 +64,9 @@ const controllers = {
     subscribe: function (req, res) {
         EmailService.registerEmail(req, res);
     },
+    twineGame: function (req, res) {
+        res.sendFile(path.resolve('views/Isekai.html'));
+    },
     unsubscribe: function (req, res) {
         EmailService.unregisterEmail(req, res);
         res.render('unsubscribe.hbs', { title: 'Unsubscribe' });
@@ -148,7 +151,6 @@ const controllers = {
     lifeSimulator: function (req, res) {
         let scripts = [{ script: 'js/LifeSimulator/LifeSimulatorService.js' }];
         res.render('lifeSimulator/lifeSimulator.hbs', { title: 'Life Simulator', scripts: scripts, onLoad: 'initialSetup()' });
-        
     }
 };
 

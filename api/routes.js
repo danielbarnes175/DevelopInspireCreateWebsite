@@ -47,6 +47,8 @@ module.exports = function(app) {
         .get(controller.sendNotification);
     app.route('/subscribe')
         .post(controller.subscribe);
+    app.route('/cyoa')
+        .get(controller.twineGame);
     app.route('/unsubscribe')
         .get(controller.unsubscribe);
     app.route('/verify')

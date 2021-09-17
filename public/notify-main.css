@@ -72,3 +72,13 @@ body {
     font-size: 1em;
     margin: 0;
 }
+
+@media only screen and (max-width: 1250px) {
+    .pad-left {
+        margin-left: 5%;
+    }
+
+    .pad-right {
+        margin-right: 5%;
+    }
+  }

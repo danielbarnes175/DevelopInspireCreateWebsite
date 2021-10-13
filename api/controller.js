@@ -124,7 +124,11 @@ const controllers = {
             res.render('admin/addProject.hbs', { title: 'Create New Project', condition: false });
     },
     resume: function (req, res) {
-        res.render('resume.hbs', { title: 'Resume' });
+        if (req.query && req.query.pdf) {
+            res.redirect('DanielBarnesResumeSE.pdf');
+        } else {
+            res.render('resume.hbs', { title: 'Resume' });
+        }
     },
     robots: function (req, res) {
         res.type('text/plain');

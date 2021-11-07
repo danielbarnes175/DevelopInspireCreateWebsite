@@ -98,79 +98,408 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Isekai" startnode="1" creator="Twine" creator-version="2.3.14" ifid="BD3DF3C2-4A6D-409C-8580-B54DE303472D" zoom="1" format="SugarCube" format-version="2.34.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">setup.incrementTime = function (currentTime, givenTime) {
-	let newTime = currentTime + givenTime;
-	if (newTime >= 24) {
-		newTime -= 24;	
+	<tw-storydata name="Isekai" startnode="1" creator="Twine" creator-version="2.3.14" ifid="BD3DF3C2-4A6D-409C-8580-B54DE303472D" zoom="0.6" format="SugarCube" format-version="2.34.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// Helper Functions
+setup.checkTimeOverflow = () => {
+	while (State.variables.currentMinutes >= 60) {
+		State.variables.currentMinutes -= 60;
+		State.variables.currentHour += 1;
 	}
 	
-	return newTime;
-};</script><tw-passagedata pid="1" name="Introduction" tags="" position="99,0" size="100,100">You open your eyes. Where are you? How did you get here?
+	while (State.variables.currentHour >= 24) {
+		State.variables.currentHour -= 24;
+		State.variables.currentDay += 1;
+	}
+	
+	if (State.variables.currentDay >= 30) {
+		State.variables.isDemonKingInvading = true;
+		console.log("Demon King Attacking!")
+		new Wikifier(null, "<<goto 'The Dark Sky'>>")
+	}
+};
 
-You sit up, looking around. You&#39;re in some kind of forest.
+// Macros
+macros.helloWorld = {
+	handler: function(place, macroName, params, parser) {
+		new Wikifier(place, "Hello World!");	
+	}
+}
 
-&lt;&lt;set $dayTime to 8&gt;&gt;
-&lt;&lt;set $currentDay to 1&gt;&gt;
-&lt;&lt;set $magicLvl to 0&gt;&gt;
-&lt;&lt;set $health to 10&gt;&gt;
-&lt;&lt;set $social to 0&gt;&gt;
+macros.getStat = {
+	handler: function(place, macroName, params, parser) {
+		new Wikifier(place, State.variables[params[0]].toFixed(2));	
+	}
+}
 
-[[Head to Town-&gt;Town Center]]</tw-passagedata><tw-passagedata pid="2" name="Town Center" tags="" position="388,250" size="200,200">You are in the town center. It is currently $dayTime o clock. You have been here for $currentDay days.
+macros.incrementHour = {
+	handler: function(place, macroName, params, parser) {
+		State.variables.currentHour += parseInt(params[0]);
+		setup.checkTimeOverflow();
+	}
+};
+
+macros.incrementMinutes = {
+	handler: function(place, macroName, params, parser) {
+		State.variables.currentMinutes += params[0];
+		setup.checkTimeOverflow();
+	}
+};
+
+macros.getCurrentTime = {
+	handler: function(place, macroName, params, parser) {
+		let hours = State.variables.currentHour;
+		if (hours < 10) {
+			hours = "0" + hours;	
+		}
+		
+		let minutes = State.variables.currentMinutes;
+		if (minutes < 10) {
+			minutes = "0" + minutes;	
+		}
+		
+		new Wikifier(place, hours + ":" + minutes);	
+	}
+}
+
+// Combat System
+macros.getAction = {
+	handler: function(place, macroName, params, parser) {
+		if (params[1] == 0) {
+				switch(params[0]) {
+					case "Player":
+						new Wikifier(place, `You gulp in anticipation.`);
+						break;
+					default:
+						new Wikifier(place, `The ${params[0]} looks down at you.`);
+						break;
+				}
+		} else {
+				new Wikifier(place, setup.getCreatureAction(params[0]));
+		}
+	}
+};
+
+setup.getCreatureAction = (creature) => {
+	let randomAction = Math.floor(Math.random() * 2);
+	switch (creature) {
+		case "Demon King":
+			demonKingsActions[randomAction].effect();
+			return demonKingsActions[randomAction].text;
+		case "Player":
+			return "You stand paralyzed in fear."
+		default:
+			return `${creature} stands idly.`
+	}
+};
+
+setup.damagePlayer = (damage) => {
+	State.variables.health -= damage;	
+}
+
+setup.getDamage = (attack) => {
+	return 1;	
+}
+		
+const demonKingsActions = [
+	{
+		text: "The Demon King swings his sword at you.",
+		effect: () => setup.damagePlayer(1)
+	},
+	{
+		text: "The Demon King slashes at you with his claws.",
+		effect: () => setup.damagePlayer(4)
+	}
+]
+
+const playerActions = [
+	{
+		text: "Basic Attack",
+		effect: () => setup.getDamage("todo")
+	}
+]</script><tw-passagedata pid="1" name="Intro: Introduction" tags="" position="897.3333333333334,265.6666666666667" size="100,100">You open your eyes. Where are you? How did you get here?
+
+You sit up, looking around. You&#39;re in some kind of forest. There&#39;s a lake to your left. It&#39;s absolutely beautiful. Unfortunately, you don&#39;t have time to admire the beauty, you have to figure out how you got here.
+
+You walk closer to the water, hoping to get a better viewpoint of the world around you.
+
+&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $currentHour = 20&gt;&gt;
+&lt;&lt;set $currentMinutes = 0&gt;&gt;
+&lt;&lt;set $currentDay = 2&gt;&gt;
+&lt;&lt;set $isDemonKingInvading = false&gt;&gt;
+
+&lt;&lt;set $magicLvl = 0&gt;&gt;
+&lt;&lt;set $health = 10&gt;&gt;
+&lt;&lt;set $mana = 0&gt;&gt;
+&lt;&lt;set $gold = 0&gt;&gt;
+
+&lt;&lt;set $social = 0&gt;&gt;
+&lt;&lt;set $physical = 0&gt;&gt;
+&lt;&lt;set $cooking = 0&gt;&gt;
+&lt;&lt;set $insight = 0&gt;&gt;
+
+&lt;&lt;set $metGuildmaster = 0&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+
+[[Intro: Character Creation]]
+[[Battle|Battle Setup]]
+
+**Note: This game is still in active development, and many features are missing, or broken.**</tw-passagedata><tw-passagedata pid="2" name="Town Center" tags="" position="1648,674" size="200,200">You are in the town center. It is currently &lt;&lt;getCurrentTime&gt;&gt;. You have been here for $currentDay days.
 
 [[Wait around an hour]]
 
+[[Go Home|The Inn]]
 [[Go to the Adventurer&#39;s Guild]]
 [[Go to the Financial District]]
 [[Go to the Shady District]]
-[[Leave Town]]</tw-passagedata><tw-passagedata pid="3" name="Wait around an hour" tags="" position="257,269" size="100,100">You wait around for an hour. Nothing really happens...
-&lt;&lt;set $dayTime = setup.incrementTime($dayTime, 1)&gt;&gt;
-&lt;&lt;return &quot;Town Center&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Go to the Adventurer&#39;s Guild" tags="" position="103,465" size="100,100">As you walk into the Adventurer&#39;s Guild, the Guildmaster looks at you and gives you a cheery &quot;hello.&quot;
+[[Leave Town]]</tw-passagedata><tw-passagedata pid="3" name="Wait around an hour" tags="" position="1517,693" size="100,100">You wait around for an hour. Nothing really happens...
+&lt;&lt;incrementHour 1&gt;&gt;
+&lt;&lt;return &quot;Town Center&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Go to the Adventurer&#39;s Guild" tags="" position="1424.6666666666667,880.6666666666666" size="100,100">&lt;&lt;if $metGuildmaster == 0&gt;&gt;
+&quot;Ah, hello there! You look like a new face in town. I&#39;m the Guildmaster. Since you&#39;re here, I&#39;m assuming you want a guild license? I&#39;ll have one processed for you right away. Once you have one, you&#39;ll be able to come to me for jobs. I also can offer you some basic training in magic, but if you&#39;re looking for more detailed instruction, you&#39;ll have to seek out someone with more experience.&quot;
+
+The Guildmaster turns around for a second, and rummages through a drawer. She comes back with a shiny Guild Member Badge. She hands it to you and says, &quot;Alright, here&#39;s your badge. I&#39;ll go ahead and get all the paperwork sorted. If you come back later, you&#39;ll be a full fledged member of the guild.&quot;
+
+&lt;&lt;set $metGuildmaster = 1&gt;&gt;
+&lt;&lt;return [[Leave the Guild.|Town Center]]&gt;&gt;
+&lt;&lt;else&gt;&gt;
+
+As you walk into the Adventurer&#39;s Guild, the Guildmaster looks at you and gives you a cheery &quot;hello.&quot;
 
 You smile back at her.
 
-[[Socialize with other adventurers (1 hour)]]
+[[Socialize with other adventurers (20 minutes)]]
 [[Check the job board]]
 [[Talk to the Guildmaster]]
-&lt;&lt;return [[Leave the Guild.|Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Leave Town" tags="" position="887,331" size="100,100">You make your way out the town gates. The guards give you a quick nod as you exit. As you leave the town, you start walking along the trodden-dirt path. You admire the fields of wheat, and the warm sunlight on your skin. A slight breeze comes through the air, filling you with hope.
+&lt;&lt;return [[Leave the Guild.|Town Center]]&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Leave Town" tags="" position="2147,755" size="100,100">You make your way out the town gates. The guards give you a quick nod as you exit. As you leave the town, you start walking along the trodden-dirt path. You admire the fields of wheat, and the warm sunlight on your skin. A slight breeze comes through the air, filling you with hope.
 
 Eventually, you make your way to a fork in the road, but one of the ways is blocked off. It looks like the only path is down toward the Demon King&#39;s Lair.
 
 [[Head down the middle path towards the Demon King&#39;s Lair|Demon King&#39;s Entrance]]
 
-&lt;&lt;return [[Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Go to the Financial District" tags="" position="645,474" size="100,100">You head to the market. There&#39;s stalls and people selling every which way. You feel into your pockets... empty.
+&lt;&lt;return [[Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Go to the Financial District" tags="" position="1905,898" size="100,100">You head to the market. There&#39;s stalls and people selling every which way. You feel into your pockets... empty.
 
 Maybe you should get some money before trying to shop.
 
-&lt;&lt;return [[Return back to the Town Center.|Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Go to the Shady District" tags="" position="887,477" size="100,100">You walk down into the dark alleyways of the shady district. The hustle and bustle of the town center dies down as you get further and further in. You look around the run down part of town.
+&lt;&lt;return [[Return back to the Town Center.|Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Go to the Shady District" tags="" position="2147,901" size="100,100">You walk down into the dark alleyways of the shady district. The hustle and bustle of the town center dies down as you get further and further in. You look around the run down part of town.
 
 [[Talk to the shady guy in robes]]
 
-&lt;&lt;return [[Return back to the Town Center.|Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Talk to the shady guy in robes" tags="" position="887,627" size="100,100">&quot;Oh ho ho...&quot; The shady man in robes says, &quot;Who do we have here?&quot;
+&lt;&lt;return [[Return back to the Town Center.|Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Talk to the shady guy in robes" tags="" position="2147,1051" size="100,100">&quot;Oh ho ho...&quot; The shady man in robes says, &quot;Who do we have here?&quot;
 
 He looks you up and down before continuing. &quot;If you want to learn dark magic, come back to me when you&#39;re proficient in regular magic.&quot;
 
-&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Demon King&#39;s Entrance" tags="" position="882,215" size="100,100">You make your way down the path to the Demon King&#39;s Lair. Your mission is to slay the Demon King, and today is going to be that day.
+&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Demon King&#39;s Entrance" tags="" position="2142,639" size="100,100">You make your way down the path to the Demon King&#39;s Lair. Your mission is to slay the Demon King, and today is going to be that day.
 
 Suddenly, you see a skeleton on the road. He looks at you with a menacing glare, or what you think the skeleton equivalent of a glare is. He starts running toward you, sword in hand.
 
 Realizing that you&#39;ve come woefully unprepared to take on the Demon King, you flee. Maybe you should wait until you&#39;re stronger.
 
-&lt;&lt;set $dayTime = setup.incrementTime($dayTime, 1)&gt;&gt;
-&lt;&lt;return [[Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Check the job board" tags="" position="200,601" size="100,100">You look at the job board, and see it&#39;s filled with various requests for adventurers. You could make some good money with this, if you only had a skillset to actually complete the jobs.
+&lt;&lt;incrementTime 1&gt;&gt;
+&lt;&lt;return [[Town Center]]&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Check the job board" tags="" position="1431.6666666666667,1026.6666666666667" size="100,100">You look at the job board, and see it&#39;s filled with various requests for adventurers. What would you like to do?
 
-You should come back after speaking to the Guildmaster.
+[[Help find lost kittens (4 hours)|Complete Job (Kittens)]]
+[[Help clean the requestor&#39;s house (2 hours)|Complete Job (Cleaning)]]
+[[Work at the local cafe (3 hours)|Complete Job (Cafe)]]
 
-&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Talk to the Guildmaster" tags="" position="398,602" size="100,100">You walk up to the Guildmaster.
+&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Talk to the Guildmaster" tags="" position="1658,1026" size="100,100">You walk up to the Guildmaster.
 
 &quot;Hello. How can I help you?&quot;
 
 [[Inquire about basic training.]]
-&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="Socialize with other adventurers (1 hour)" tags="" position="1,601" size="100,100">You spend a jolly ol&#39; time with some of the other adventurers.
+&lt;&lt;return&gt;&gt;
+</tw-passagedata><tw-passagedata pid="12" name="Socialize with other adventurers (20 minutes)" tags="" position="1249.3333333333333,1025" size="100,100">You spend a jolly ol&#39; time with some of the other adventurers.
 
-&lt;&lt;set $dayTime = setup.incrementTime($dayTime, 1)&gt;&gt;
-&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="Inquire about basic training." tags="" position="398,752" size="100,100">The Guildmaster looks at you with a sad look in her eyes, &quot;You made it this far, but unfortunately, the Guild training routine hasn&#39;t been fully fleshed out. If you want to progress in the game, you&#39;ll have to wait until the game is updated. Perhaps you could consider donating to &#39;inspire&#39; Daniel to work faster.&quot;
+&lt;&lt;incrementMinutes 20&gt;&gt;
+&lt;&lt;set $social += Math.random()&gt;&gt;
+&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="Inquire about basic training." tags="" position="1658,1176" size="100,100">The Guildmaster looks at you with a sad look in her eyes, &quot;You made it this far, but unfortunately, the Guild training routine hasn&#39;t been fully fleshed out. If you want to progress in the game, you&#39;ll have to wait until the game is updated. Perhaps you could consider donating to &#39;inspire&#39; Daniel to work faster.&quot;
 
-&lt;&lt;return [[Go to the Adventurer&#39;s Guild]]&gt;&gt;</tw-passagedata></tw-storydata>
+&lt;&lt;return [[Go to the Adventurer&#39;s Guild]]&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Your Room" tags="" position="1893,407" size="100,100">You walk into your home. It&#39;s just the way you left it.
+
+[[Change your equipment]]
+[[Sleep (8 hours)|Sleep]]
+
+[[Leave|The Inn]] </tw-passagedata><tw-passagedata pid="15" name="Change your equipment" tags="" position="2025,408" size="100,100">You look at yourself in the mirror.
+
+&lt;&lt;return&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Sleep" tags="" position="1892,527" size="100,100">You fall into a deep sleep. It is rather pleasant.
+&lt;&lt;incrementHour 8&gt;&gt;
+&lt;&lt;return &quot;Wake up&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Intro: Character Creation" tags="" position="1126,270" size="100,100">&lt;&lt;set $hairColor = &quot;brown&quot;&gt;&gt;
+&lt;&lt;set $eyeColor = &quot;blue&quot;&gt;&gt;
+&lt;&lt;set $gender = &quot;boy&quot;&gt;&gt;
+
+You look in the water, and what do you see?
+
+Customization:
+	Gender:
+		&lt;&lt;radiobutton &quot;$gender&quot; boy checked&gt;&gt; &#39;&#39;boy&#39;&#39;\  
+		&lt;&lt;radiobutton &quot;$gender&quot; girl&gt;&gt; &#39;&#39;girl&#39;&#39;
+	Hair Color:
+		&lt;&lt;radiobutton &quot;$hairColor&quot; brown checked&gt;&gt; &#39;&#39;brown&#39;&#39;\  
+		&lt;&lt;radiobutton &quot;$hairColor&quot; black&gt;&gt; &#39;&#39;black&#39;&#39;\ 
+		&lt;&lt;radiobutton &quot;$hairColor&quot; blonde&gt;&gt; &#39;&#39;blonde&#39;&#39;
+	Eye Color:
+		&lt;&lt;radiobutton &quot;$eyeColor&quot; blue checked&gt;&gt; &#39;&#39;blue&#39;&#39;\  
+		&lt;&lt;radiobutton &quot;$eyeColor&quot; brown&gt;&gt; &#39;&#39;brown&#39;&#39;\ 
+		&lt;&lt;radiobutton &quot;$eyeColor&quot; green&gt;&gt; &#39;&#39;green&#39;&#39;
+		
+[[Continue|Intro: Finish Character Creation]]</tw-passagedata><tw-passagedata pid="18" name="Intro: Finish Character Creation" tags="" position="1239,275" size="100,100">You see a $gender with $hairColor hair and $eyeColor eyes staring back at you.
+
+That&#39;s not what you look like! Sure, some details here and there might be right, but this isn&#39;t you! You cock your head to one side, double checking that this is indeed your reflection. The reflection follows suit, and you accept that this is in fact, you, but it&#39;s like you took over someone else&#39;s body.
+
+&quot;U-um, hello?&quot; a voice cries out near you.
+
+[[Look to the sound of the voice|Intro: Look to the sound of the voice]]
+[[Skip Introduction|Town Center]]</tw-passagedata><tw-passagedata pid="19" name="Intro: Look to the sound of the voice" tags="" position="1354,274" size="100,100">You look in the direction that the voice is coming from, and you see a girl looking at you. 
+
+&quot;H-hello. Are you okay?&quot; The girl asks, giving you a concerned look.
+
+You stare at her blankly. You can&#39;t help but notice that her outfit looks like she came straight from a fantasy renaissance fair. That&#39;s not even the most important thing you notice, however. You stare at her ears. They&#39;re pointy.
+
+&quot;It&#39;s just, I heard you scream... I wanted to see if you were okay..&quot; The girl continues.
+
+[[Intro: &quot;Are you an elf?&quot;]]
+[[Intro: &quot;I&#39;m fine, thanks for asking.&quot;]]</tw-passagedata><tw-passagedata pid="20" name="Intro: &quot;Are you an elf?&quot;" tags="" position="1353,400" size="100,100">&quot;Are you an elf?&quot; You ask blankly.
+
+The girl blinks, and furrows her eyes in a slightly concerned look.
+
+&quot;Uh, yeah, I am.&quot; She says, obviously a little confused with why you asked that question. &quot;You&#39;re okay, right?&quot;
+
+[[&quot;Yeah, I&#39;m fine.&quot;|Intro: &quot;I&#39;m fine, thanks for asking.&quot;]]</tw-passagedata><tw-passagedata pid="21" name="Intro: &quot;I&#39;m fine, thanks for asking.&quot;" tags="" position="1483,400" size="100,100">&quot;I&#39;m fine, thanks for asking.&quot; You reply.
+
+The girl immediately looks relieved. Then, her eyes widen as she looks at you, then to the lake, then back at you. &quot;Wait a second,&quot; the girl starts, &quot;how did you get here?&quot;
+
+You take a look around, wondering what the girl is thinking.
+
+[[Tell the truth|Intro: Tell the truth]]
+[[Lie|Intro: Lie]]</tw-passagedata><tw-passagedata pid="22" name="Intro: Tell the truth" tags="" position="1556,516" size="100,100">&quot;Well, the truth is, I just woke up here. I&#39;m not really sure how I got here.&quot; You say to the elven girl.
+
+The girl&#39;s eyes widen even moreso than you thought possible, and suddenly a big, cheerful smile breaks out on her face. &quot;Finally! The hero has arrived! We&#39;re all saved!&quot; The girl starts jumping for joy.
+
+[[Continue|Intro: The Hero&#39;s Arrival]]</tw-passagedata><tw-passagedata pid="23" name="Intro: Lie" tags="" position="1606,402" size="100,100">&quot;I just stumbled around, and found my way here. Nothing to worry about.&quot; You say.
+
+The girl narrows her eyes at you. &quot;You just &#39;stumbled upon&#39; the Lake of Summonings?&quot;
+
+You don&#39;t reply, and the girl continues, &quot;...And you&#39;re not the summoned hero who will save the world from the Demon King?&quot;
+
+Lake of Summonings? Demon King? Heroes? Saving the World? You feel like it might be important to tell this girl the truth.
+
+[[Keep Lying|Intro: Lie Harder]]
+[[Tell the truth|Intro: Tell the truth]]</tw-passagedata><tw-passagedata pid="24" name="Intro: Lie Harder" tags="" position="1483,276" size="100,100">This girl must be totally bonkers. You&#39;re probably better off not associating with her. You reply to her, &quot;Nooope. Just a $gender that stumbled upon this nice ol&#39; Lake.&quot;
+
+The girl looks at you with suspcion, but seems to believe your lie saying &quot;Alright then, well I guess I&#39;ll be on my way then...&quot; Before you know it, the girl is gone.
+
+[[Continue|Intro: Lied]]</tw-passagedata><tw-passagedata pid="25" name="Intro: Lied" tags="" position="1480,151" size="100,100">The girl leaves and you stay at the Lake. You try to make your way out of the forest, but the twists and turns alway lead you back to the lake. Fortunately, you&#39;re able to scavenge for wild berries, and hunt animals, and of course, the lake gives you all the water you could need.
+
+You decide to make your home up here by this lake, and for some time, you live a peaceful life by the lake. Every morning you wake up early, and watch the sunrise glean across the clear water. You go throughout your day, living in complete calm. Life is good.
+
+[[A year passes...|Intro: Bad End]]</tw-passagedata><tw-passagedata pid="26" name="Intro: Bad End" tags="" position="1603,151" size="100,100">After an entire year has passed, you sit by the cabin you&#39;ve build yourself. You remember back to a year ago, when you had nothing. Somehow through it all, you managed to build yourself a life here, and you&#39;ve enjoyed it.
+
+You never saw the elf girl again. You never figured out why you suddenly woke up in this world, or how your appearance changed, but none of that mattered to you.
+
+As you reminisce about the past, suddenly a clattering of bones makes noise to your right. You look to the right, grabbing your homemade spear when you see a skeleton moving around!
+
+The shock of seeing a moving skeleton paralyzes you for a second, allowing the skeleton to stab you right in the stomach.
+
+As your vision fades, you only hear the clattering of bones making out the words &quot;For the Demon King!&quot;
+
+[[Die|Intro: Die]]</tw-passagedata><tw-passagedata pid="27" name="Intro: Die" tags="" position="1602,266" size="100,100">You have failed to slay the Demon King in time, and have died. Maybe you shouldn&#39;t have tried to ignore the main storyline...
+
+&#39;&#39;Game Over&#39;&#39;</tw-passagedata><tw-passagedata pid="28" name="Intro: The Hero&#39;s Arrival" tags="" position="1359,582" size="100,100">You watch as the girl jumps up and down in excitement. You&#39;re not sure why she&#39;s so excited, but you continue to watch her, waiting for a moment to interrupt.
+
+The girl notices you waiting, and blurts out, &quot;Oh! I&#39;m so sorry! You must be so confused, having just been summoned.&quot;
+
+The girl&#39;s face turns serious. &quot;To avoid exposition, I&#39;ll just keep it short and sweet,&quot; the girl continues, &quot;You&#39;ve been summoned to our world in order to slay the Demon King. This happens every 100 years, and you&#39;re the one summoned this time. In fact, your summoning means the Demon King will attack in exactly &#39;&#39;1 year&#39;&#39; and you&#39;re going to be the one to fight him!&quot;
+
+[[Continue|Intro: Demon King??]]</tw-passagedata><tw-passagedata pid="29" name="Intro: Demon King??" tags="" position="1243,581" size="100,100">&quot;Slow down a minute.. What do you mean? I can&#39;t slay a demon, nonetheless the King of Demons.&quot; You ask.
+
+&quot;I know, I know,&quot; the girl starts, &quot;it&#39;s a lot to take in. Here, come with me, I&#39;ll explain more as we make our way into town.&quot;
+
+[[Continue|Intro: Journey into Town]]</tw-passagedata><tw-passagedata pid="30" name="Intro: Journey into Town" tags="" position="1125,581" size="100,100">You start to make your way into town. How is this possible? Transported into another world? This is just like some anime. Yet with each step you can feel the dirt crunch underneath your feet. You can feel the wind blow through your hair. You can feel, and see, well everything. This isn&#39;t just a show that you&#39;re watching, no, this is more. You&#39;ve actually been transported to another world.
+
+&quot;Every 100 years,&quot; the girl starts, &quot;the Demon King attacks, and every time, we need a new adventurer to slay him. The adventurer that does that is the hero summoned from another world, or most relevantly, you.&quot;
+
+&quot;How am I expected to slay this Demon King?&quot; You ask.
+
+The girl laughs. &quot;We don&#39;t really have a system set up for that. Most of the heroes have mind&#39;s of their own, and even if you tell them to do one thing, they&#39;re completely free to make their own choices. How those choices culminate, and how they ultimately help in defeating the Demon King, well, that&#39;s all up to the Hero. One hero one year even beat the Demon King by becoming a master chef! Don&#39;t ask me how that was possible, though.&quot;
+
+[[Continue|Intro: Journey Into Town (2)]]</tw-passagedata><tw-passagedata pid="31" name="Intro: Journey Into Town (2)" tags="" position="1239,401" size="100,100">&quot;Alright, so I&#39;m completely free to do whatever I want in this world?&quot; You ask.
+
+&quot;Yep! As long as a year from now, you defeat the Demon King. That&#39;s the only requirement we ask of you.&quot; The elf replies.
+
+This world seems simple enough. You can make choices to decide what you want to do in this world. Unfortunately, you&#39;ll have to fight the Demon King in a year, so the number of choices you can make are limited. Hopefully you can pick the right ones in order to fully be ready... You begin to think some more. What if you decide not to fight the Demon King? Or what if you&#39;re not ready after a year? You decide to ask the elf girl your questions.
+
+The girl&#39;s ears raise in what seems to be an elven form of shock or worry. &quot;Are you crazy?!&quot; The girl screams. &quot;If you don&#39;t defeat the Demon King, we&#39;re all going to die!&quot;
+
+[[Continue|Intro: Journey Into Town (3)]]</tw-passagedata><tw-passagedata pid="32" name="Intro: Journey Into Town (3)" tags="" position="1126,398" size="100,100">You look at the girl quizzically. She&#39;s surely exaggerating, right? You decide to let the topic drop. There&#39;s probably not much more you can get from this girl.
+
+The rest of the walk to town is fairly boring. Eventually, you see the town gates, and are about to walk in, when the girl stops you. &quot;By the way,&quot; she says, &quot;my name is Livi.&quot;
+
+[[Enter the Town|Intro: The Town]]</tw-passagedata><tw-passagedata pid="33" name="Intro: The Town" tags="" position="1010,398" size="100,100">You walk into the town with Livi. There&#39;s people walking around everywhere, but they seem to mostly be ignoring you, only giving you a glance here and there. You really expected there to be some more fanfare for you if you&#39;re the hero. Oh well. You walk with Livi, and then she brings you to an inn. She briefly speaks to the inn keeper, then leads you to a room.
+
+&quot;Alright!&quot; Livi says, &quot;This is where you&#39;ll be staying for the next year. Free of charge! At least for the first week... Every week after that, it&#39;ll be 100 gold. Anyway, I&#39;ve done my job! I&#39;m heading back to the Lake! Good luck in your quest to defeat the Demon King!&quot; Before you know it, she&#39;s leaving.
+
+&quot;Hey wait!&quot; You yell, chasing her outside the inn. &quot;What am I supposed to do next?!&quot;
+
+She doesn&#39;t stop for a second, and somehow manages to avoid everyone in the crowd. Elves and their ability to move nimbly... Thankfully, you hear her call out one last thing before she leaves. &quot;If you&#39;re not sure where to start, maybe try asking the Guildmaster!&quot;
+
+Thanks Livi...
+
+[[Town Center]] 
+
+</tw-passagedata><tw-passagedata pid="34" name="The Inn" tags="" position="1762,401" size="100,100">You walk into the inn. The innkeeper ignores you.
+
+[[Enter your room|Your Room]]
+[[Leave the Inn|Town Center]]</tw-passagedata><tw-passagedata pid="35" name="The Dark Sky" tags="" position="1761,15" size="100,100">All of a sudden Livi appears next to you. She has a dark look on her face. &quot;The time has come! The Demon King is about to invade! Come with me.&quot;
+
+[[Fight the Demon King|Battle Setup]]</tw-passagedata><tw-passagedata pid="36" name="Battle" tags="" position="1261.6666666666665,135.33333333333334" size="100,100">&lt;&lt;getAction &quot;Demon King&quot; $turnNumber&gt;&gt;
+&lt;&lt;getAction &quot;Player&quot; $turnNumber&gt;&gt;
+&lt;&lt;set $turnNumber += 1&gt;&gt;
+&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $health &lt;= 0&gt;&gt;
+	&lt;&lt;goto Death&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+You currently have $health HP.
+Your mana is $mana.
+
+[[Realize you came horrifically unprepared|Battle]]
+  
+</tw-passagedata><tw-passagedata pid="37" name="Battle Setup" tags="" position="1027.3333333333333,118.33333333333333" size="100,100">&lt;&lt;set $enemyHealth = 10&gt;&gt;
+&lt;&lt;set $enemyName = &quot;Demon King&quot;&gt;&gt;
+&lt;&lt;set $turnNumber = 0&gt;&gt;
+
+&lt;&lt;goto Battle&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Death" tags="" position="1892.3333333333335,15" size="100,100">You fall to the ground, lifeless. You have failed in your quest to defeat the Demon King, and now the world will plunge into darkness.
+
+You have died.</tw-passagedata><tw-passagedata pid="39" name="Complete Job (Kittens)" tags="" position="1321.6666666666665,1168.3333333333335" size="100,100">You help look for lost kittens around town. You find &lt;&lt;either(2,3,4,5,6)&gt;&gt; kittens after 4 hours.
+
+You have earned 40 gold.
+&lt;&lt;set $gold += 40&gt;&gt;
+&lt;&lt;incrementHour 4&gt;&gt;
+&lt;&lt;set $insight += Math.random()&gt;&gt;
+
+[[Return to the guild|Go to the Adventurer&#39;s Guild]]</tw-passagedata><tw-passagedata pid="40" name="Complete Job (Cleaning)" tags="" position="1541.6666666666667,1173.3333333333335" size="100,100">You walk to the requestor&#39;s house, and knock on the door. The client hands you a mop and rag, and tells you to get to work.
+
+You have earned 20 gold after cleaning for 2 hours.
+&lt;&lt;set $gold += 20&gt;&gt;
+&lt;&lt;incrementHour 2&gt;&gt;
+&lt;&lt;set $physical += Math.random()&gt;&gt;
+
+[[Return to the guild|Go to the Adventurer&#39;s Guild]]</tw-passagedata><tw-passagedata pid="41" name="Complete Job (Cafe)" tags="" position="1430.0000000000002,1170" size="100,100">You head over to the cafe, and speak with the owner. He has you bake desserts for 3 hours.
+
+You have earned 30 gold.
+&lt;&lt;set $gold += 30&gt;&gt;
+&lt;&lt;incrementHour 3&gt;&gt;
+&lt;&lt;set $cooking += Math.random()&gt;&gt;
+
+[[Return to the guild|Go to the Adventurer&#39;s Guild]]</tw-passagedata><tw-passagedata pid="42" name="StoryCaption" tags="" position="2011.3333333333335,10.000000000000114" size="100,100">HP: $health
+Mana: $mana
+Gold: $gold
+
+Stats
+------
+Social: &lt;&lt;getStat social&gt;&gt;
+Physical: &lt;&lt;getStat physical&gt;&gt;
+Cooking: &lt;&lt;getStat cooking&gt;&gt;
+Insight: &lt;&lt;getStat insight&gt;&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
 	if(document.documentElement.getAttribute("data-init")==="loading"){!function(window,document,jQuery,undefined){"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)}var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),_slicedToArray=function(){function e(e,t){var r=[],n=!0,a=!1,i=undefined;try{for(var o,s=e[Symbol.iterator]();!(n=(o=s.next()).done)&&(r.push(o.value),!t||r.length!==t);n=!0);}catch(e){a=!0,i=e}finally{try{!n&&s.return&&s.return()}finally{if(a)throw i}}return r}return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},errorPrologRegExp=/^(?:(?:uncaught\s+(?:exception:\s+)?)?\w*(?:error|exception|_err):\s+)+/i,Alert=function(){function e(e,t,r,n){var a="fatal"===e,i="Apologies! "+(a?"A fatal":"An")+" error has occurred.";i+=a?" Aborting.":" You may be able to continue, but some parts may not work properly.",null==t&&null==r||(i+="\n\nError",null!=t&&(i+=" ["+t+"]"),i+=null!=r?": "+r.replace(errorPrologRegExp,"")+".":": unknown error."),"object"===(void 0===n?"undefined":_typeof(n))&&null!==n&&n.stack&&(i+="\n\nStack Trace:\n"+n.stack),window.alert(i)}function t(t,r,n){e(null,t,r,n)}function r(t,r,n){e("fatal",t,r,n)}return function(e){window.onerror=function(n,a,i,o,s){"complete"===document.readyState?t(null,n,s):(r(null,n,s),window.onerror=e,"function"==typeof window.onerror&&window.onerror.apply(this,arguments))}}(window.onerror),Object.freeze(Object.defineProperties({},{error:{value:t},fatal:{value:r}}))}(),Patterns=function(){var e=function(){var e=new Map([[" ","\\u0020"],["\f","\\f"],["\n","\\n"],["\r","\\r"],["\t","\\t"],["\v","\\v"],[" ","\\u00a0"],[" ","\\u1680"],["᠎","\\u180e"],[" ","\\u2000"],[" ","\\u2001"],[" ","\\u2002"],[" ","\\u2003"],[" ","\\u2004"],[" ","\\u2005"],[" ","\\u2006"],[" ","\\u2007"],[" ","\\u2008"],[" ","\\u2009"],[" ","\\u200a"],["\u2028","\\u2028"],["\u2029","\\u2029"],[" ","\\u202f"],[" ","\\u205f"],["　","\\u3000"],["\ufeff","\\ufeff"]]),t=/^\s$/,r="";return e.forEach(function(e,n){t.test(n)||(r+=e)}),r?"[\\s"+r+"]":"\\s"}(),t="[\\u0020\\f\\t\\v\\u00a0\\u1680\\u180e\\u2000-\\u200a\\u202f\\u205f\\u3000\\ufeff]",r="\\s"===e?"\\S":e.replace(/^\[/,"[^"),n="[0-9A-Z_a-z\\-\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff\\u0150\\u0170\\u0151\\u0171]",a=n.replace("\\-",""),i=function(){var e="(?:[\\x2D.0-9A-Z_a-z\\xB7\\xC0-\\xD6\\xD8-\\xF6\\xF8-\\u037D\\u037F-\\u1FFF\\u200C\\u200D\\u203F\\u2040\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD]|[\\uD800-\\uDB7F][\\uDC00-\\uDFFF])";return"[A-Za-z](?:"+e+"*-"+e+"*|[0-9A-Za-z]*)"}(),o=function(){return"("+n+"+)\\(([^\\)\\|\\n]+)\\):|"+t+"*("+n+"+)"+t+"*:([^;\\|\\n]+);|"+t+"*((?:[#.]"+n+"+"+t+"*)+);"}();return Object.freeze({space:e,spaceNoTerminator:t,lineTerminator:"[\\n\\r\\u2028\\u2029]",notSpace:r,anyChar:"(?:.|[\\n\\r\\u2028\\u2029])",anyLetter:n,anyLetterStrict:a,identifierFirstChar:"[$A-Z_a-z]",identifierNextChar:"[$0-9A-Z_a-z]",identifier:"[$A-Z_a-z][$0-9A-Z_a-z]*",variableSigil:"[$_]",variable:"[$_][$A-Z_a-z][$0-9A-Z_a-z]*",macroName:"[A-Za-z][\\w-]*|[=-]",templateName:"[A-Za-z][\\w-]*",htmlTagName:i,cssIdOrClassSigil:"[#.]",cssImage:"\\[[<>]?[Ii][Mm][Gg]\\[(?:\\s|\\S)*?\\]\\]+",inlineCss:o,url:"(?:file|https?|mailto|ftp|javascript|irc|news|data):[^\\s'\"]+"})}();!function(){function e(e,t){var r=Number.parseInt(e,10)||0;if(r<1)return"";var n=void 0===t?"":String(t);for(""===n&&(n=" ");n.length<r;){var a=n.length,i=r-a;n+=a>i?n.slice(0,i):n}return n.length>r&&(n=n.slice(0,r)),n}var t=function(){function e(e,n){var a=String(e);if(!a)return a;switch(n){case"start":return t.test(a)?a.replace(t,""):a;case"end":return r.test(a)?a.replace(r,""):a;default:throw new Error('_trimString called with incorrect where parameter value: "'+n+'"')}}var t=new RegExp("^"+Patterns.space+Patterns.space+"*"),r=new RegExp(""+Patterns.space+Patterns.space+"*$");return e}();Array.prototype.flat||Object.defineProperty(Array.prototype,"flat",{configurable:!0,writable:!0,value:function(){function e(){if(null==this)throw new TypeError("Array.prototype.flat called on null or undefined");var t=0===arguments.length?1:Number(arguments[0])||0;return t<1?Array.prototype.slice.call(this):Array.prototype.reduce.call(this,function(r,n){return n instanceof Array?r.push.apply(r,_toConsumableArray(e.call(n,t-1))):r.push(n),r},[])}return e}()}),Array.prototype.flatMap||Object.defineProperty(Array.prototype,"flatMap",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.flatMap called on null or undefined");return Array.prototype.map.apply(this,arguments).flat()}}),Array.prototype.includes||Object.defineProperty(Array.prototype,"includes",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includes called on null or undefined");if(0===arguments.length)return!1;var e=this.length>>>0;if(0===e)return!1;var t=arguments[0],r=Number(arguments[1])||0;for(r<0&&(r=Math.max(0,e+r));r<e;++r){var n=this[r];if(n===t||n!==n&&t!==t)return!0}return!1}}),Object.entries||Object.defineProperty(Object,"entries",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e)throw new TypeError("Object.entries object parameter must be an object");return Object.keys(e).map(function(t){return[t,e[t]]})}}),Object.fromEntries||Object.defineProperty(Object,"fromEntries",{configurable:!0,writable:!0,value:function(e){return Array.from(e).reduce(function(e,t){if(Object(t)!==t)throw new TypeError("Object.fromEntries iterable parameter must yield objects");return t[0]in e?Object.defineProperty(e,t[0],{configurable:!0,enumerable:!0,writable:!0,value:t[1]}):e[t[0]]=t[1],e},{})}}),Object.getOwnPropertyDescriptors||Object.defineProperty(Object,"getOwnPropertyDescriptors",{configurable:!0,writable:!0,value:function(e){if(null==e)throw new TypeError("Object.getOwnPropertyDescriptors object parameter is null or undefined");var t=Object(e);return Reflect.ownKeys(t).reduce(function(e,r){var n=Object.getOwnPropertyDescriptor(t,r);return void 0!==n&&(r in e?Object.defineProperty(e,r,{configurable:!0,enumerable:!0,writable:!0,value:n}):e[r]=n),e},{})}}),Object.values||Object.defineProperty(Object,"values",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e)throw new TypeError("Object.values object parameter must be an object");return Object.keys(e).map(function(t){return e[t]})}}),String.prototype.padStart||Object.defineProperty(String.prototype,"padStart",{configurable:!0,writable:!0,value:function(t,r){if(null==this)throw new TypeError("String.prototype.padStart called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(t,10);return i<=a?n:e(i-a,r)+n}}),String.prototype.padEnd||Object.defineProperty(String.prototype,"padEnd",{configurable:!0,writable:!0,value:function(t,r){if(null==this)throw new TypeError("String.prototype.padEnd called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(t,10);return i<=a?n:n+e(i-a,r)}}),String.prototype.trimStart||Object.defineProperty(String.prototype,"trimStart",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimStart called on null or undefined");return t(this,"start")}}),String.prototype.trimLeft||Object.defineProperty(String.prototype,"trimLeft",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimLeft called on null or undefined");return t(this,"start")}}),String.prototype.trimEnd||Object.defineProperty(String.prototype,"trimEnd",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimEnd called on null or undefined");return t(this,"end")}}),String.prototype.trimRight||Object.defineProperty(String.prototype,"trimRight",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimRight called on null or undefined");return t(this,"end")}})}(),function(){function _random(){var e=void 0,t=void 0;switch(arguments.length){case 0:throw new Error("_random called with insufficient parameters");case 1:e=0,t=arguments[0];break;default:e=arguments[0],t=arguments[1]}if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.floor(_nativeMathRandom()*(t-e+1))+e}function _randomIndex(e,t){var r=void 0,n=void 0;switch(t.length){case 1:r=0,n=e-1;break;case 2:r=0,n=Math.trunc(t[1]);break;default:r=Math.trunc(t[1]),n=Math.trunc(t[2])}return Number.isNaN(r)?r=0:!Number.isFinite(r)||r>=e?r=e-1:r<0&&(r=e+r)<0&&(r=0),Number.isNaN(n)?n=0:!Number.isFinite(n)||n>=e?n=e-1:n<0&&(n=e+n)<0&&(n=e-1),_random(r,n)}function _getCodePointStartAndEnd(e,t){var r=e.charCodeAt(t);if(Number.isNaN(r))return{char:"",start:-1,end:-1};if(r<55296||r>57343)return{char:e.charAt(t),start:t,end:t};if(r>=55296&&r<=56319){var n=t+1;if(n>=e.length)throw new Error("high surrogate without trailing low surrogate");var a=e.charCodeAt(n);if(a<56320||a>57343)throw new Error("high surrogate without trailing low surrogate");return{char:e.charAt(t)+e.charAt(n),start:t,end:n}}if(0===t)throw new Error("low surrogate without leading high surrogate");var i=t-1,o=e.charCodeAt(i);if(o<55296||o>56319)throw new Error("low surrogate without leading high surrogate");return{char:e.charAt(i)+e.charAt(t),start:i,end:t}}var _nativeMathRandom=Math.random;Object.defineProperty(Array,"random",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e||!Object.prototype.hasOwnProperty.call(e,"length"))throw new TypeError("Array.random array parameter must be an array or array-lke object");var t=e.length>>>0;if(0!==t){return e[0===arguments.length?_random(0,t-1):_randomIndex(t,Array.prototype.slice.call(arguments,1))]}}}),Object.defineProperty(Array.prototype,"concatUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.concatUnique called on null or undefined");var e=Array.from(this);if(0===arguments.length)return e;var t=Array.prototype.reduce.call(arguments,function(e,t){return e.concat(t)},[]),r=t.length;if(0===r)return e;for(var n=Array.prototype.indexOf,a=Array.prototype.push,i=0;i<r;++i){var o=t[i];-1===n.call(e,o)&&a.call(e,o)}return e}}),Object.defineProperty(Array.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.count called on null or undefined");for(var e=Array.prototype.indexOf,t=arguments[0],r=Number(arguments[1])||0,n=0;-1!==(r=e.call(this,t,r));)++n,++r;return n}}),Object.defineProperty(Array.prototype,"delete",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.delete called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.concat.apply([],arguments),r=t.length,n=[],a=0;a<e;++a)for(var i=this[a],o=0;o<r;++o){var s=t[o];if(i===s||i!==i&&s!==s){n.push(a);break}}for(var u=[],l=0,c=n.length;l<c;++l)u[l]=this[n[l]];for(var d=Array.prototype.splice,f=n.length-1;f>=0;--f)d.call(this,n[f],1);return u}}),Object.defineProperty(Array.prototype,"deleteAt",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.deleteAt called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.splice,r=[].concat(_toConsumableArray(new Set(Array.prototype.concat.apply([],arguments).map(function(t){return t<0?Math.max(0,e+t):t})).values())),n=[].concat(_toConsumableArray(r)).sort(function(e,t){return t-e}),a=[],i=0,o=r.length;i<o;++i)a[i]=this[r[i]];for(var s=0,u=n.length;s<u;++s)t.call(this,n[s],1);return a}}),Object.defineProperty(Array.prototype,"deleteWith",{configurable:!0,writable:!0,value:function(e,t){if(null==this)throw new TypeError("Array.prototype.deleteWith called on null or undefined");if("function"!=typeof e)throw new Error("Array.prototype.deleteWith predicate parameter must be a function");var r=this.length>>>0;if(0===r)return[];for(var n=Array.prototype.splice,a=[],i=[],o=0;o<r;++o)e.call(t,this[o],o,this)&&(i.push(this[o]),a.push(o));for(var s=a.length-1;s>=0;--s)n.call(this,a[s],1);return i}}),Object.defineProperty(Array.prototype,"first",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.first called on null or undefined");if(0!=this.length>>>0)return this[0]}}),Object.defineProperty(Array.prototype,"includesAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAll called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAll.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(!Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!1;return!0}}),Object.defineProperty(Array.prototype,"includesAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAny called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAny.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!0;return!1}}),Object.defineProperty(Array.prototype,"last",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.last called on null or undefined");var e=this.length>>>0;if(0!==e)return this[e-1]}}),Object.defineProperty(Array.prototype,"pluck",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.pluck called on null or undefined");var e=this.length>>>0;if(0!==e){var t=0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)));return Array.prototype.splice.call(this,t,1)[0]}}}),Object.defineProperty(Array.prototype,"pluckMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.pluckMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.pluckMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=Array.prototype.splice,a=[],i=t-1;do{a.push(n.call(this,_random(0,i--),1)[0])}while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"pushUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.pushUnique called on null or undefined");var e=arguments.length;if(0===e)return this.length>>>0;for(var t=Array.prototype.indexOf,r=Array.prototype.push,n=0;n<e;++n){var a=arguments[n];-1===t.call(this,a)&&r.call(this,a)}return this.length>>>0}}),Object.defineProperty(Array.prototype,"random",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.random called on null or undefined");var e=this.length>>>0;if(0!==e){return this[0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)))]}}}),Object.defineProperty(Array.prototype,"randomMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.randomMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.randomMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=new Map,a=[],i=t-1;do{var o=void 0;do{o=_random(0,i)}while(n.has(o));n.set(o,!0),a.push(this[o])}while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"shuffle",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.shuffle called on null or undefined");var e=this.length>>>0;if(0===e)return this;for(var t=e-1;t>0;--t){var r=Math.floor(_nativeMathRandom()*(t+1));if(t!==r){var n=this[t];this[t]=this[r],this[r]=n}}return this}}),Object.defineProperty(Array.prototype,"unshiftUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.unshiftUnique called on null or undefined");var e=arguments.length;if(0===e)return this.length>>>0;for(var t=Array.prototype.indexOf,r=Array.prototype.unshift,n=0;n<e;++n){var a=arguments[n];-1===t.call(this,a)&&r.call(this,a)}return this.length>>>0}}),Object.defineProperty(Function.prototype,"partial",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Function.prototype.partial called on null or undefined");var e=Array.prototype.slice,t=this,r=e.call(arguments,0);return function(){for(var n=[],a=0,i=0;i<r.length;++i)n.push(r[i]===undefined?arguments[a++]:r[i]);return t.apply(this,n.concat(e.call(arguments,a)))}}}),Object.defineProperty(Math,"clamp",{configurable:!0,writable:!0,value:function(e,t,r){var n=Number(e);return Number.isNaN(n)?NaN:n.clamp(t,r)}}),Object.defineProperty(Math,"easeInOut",{configurable:!0,writable:!0,value:function(e){return 1-(Math.cos(Number(e)*Math.PI)+1)/2}}),Object.defineProperty(Number.prototype,"clamp",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Number.prototype.clamp called on null or undefined");if(2!==arguments.length)throw new Error("Number.prototype.clamp called with an incorrect number of parameters");var e=Number(arguments[0]),t=Number(arguments[1]);if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.min(Math.max(this,e),t)}}),RegExp.escape||function(){var e=/[\\^$*+?.()|[\]{}]/g,t=new RegExp(e.source);Object.defineProperty(RegExp,"escape",{configurable:!0,writable:!0,value:function(r){var n=String(r);return n&&t.test(n)?n.replace(e,"\\$&"):n}})}(),function(){var e=/{(\d+)(?:,([+-]?\d+))?}/g,t=new RegExp(e.source);Object.defineProperty(String,"format",{configurable:!0,writable:!0,value:function(r){function n(e,t,r){if(!t)return e;var n=Math.abs(t)-e.length;if(n<1)return e;var a=String(r).repeat(n);return t<0?e+a:a+e}if(arguments.length<2)return 0===arguments.length?"":r;var a=2===arguments.length&&Array.isArray(arguments[1])?[].concat(_toConsumableArray(arguments[1])):Array.prototype.slice.call(arguments,1);return 0===a.length?r:t.test(r)?(e.lastIndex=0,r.replace(e,function(e,t,r){var i=a[t];if(null==i)return"";for(;"function"==typeof i;)i=i();switch(void 0===i?"undefined":_typeof(i)){case"string":break;case"object":i=JSON.stringify(i);break;default:i=String(i)}return n(i,r?Number.parseInt(r,10):0," ")})):r}})}(),Object.defineProperty(String.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.contains called on null or undefined");return-1!==String.prototype.indexOf.apply(this,arguments)}}),Object.defineProperty(String.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.count called on null or undefined");var e=String(arguments[0]||"");if(""===e)return 0;for(var t=String.prototype.indexOf,r=e.length,n=Number(arguments[1])||0,a=0;-1!==(n=t.call(this,e,n));)++a,n+=r;return a}}),Object.defineProperty(String.prototype,"first",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.first called on null or undefined");return _getCodePointStartAndEnd(String(this),0).char}}),Object.defineProperty(String.prototype,"last",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.last called on null or undefined");var e=String(this);return _getCodePointStartAndEnd(e,e.length-1).char}}),Object.defineProperty(String.prototype,"splice",{configurable:!0,writable:!0,value:function(e,t,r){if(null==this)throw new TypeError("String.prototype.splice called on null or undefined");var n=this.length>>>0;if(0===n)return"";var a=Number(e);Number.isSafeInteger(a)?a<0&&(a+=n)<0&&(a=0):a=0,a>n&&(a=n);var i=Number(t);(!Number.isSafeInteger(i)||i<0)&&(i=0);var o=this.slice(0,a);return void 0!==r&&(o+=r),a+i<n&&(o+=this.slice(a+i)),o}}),Object.defineProperty(String.prototype,"splitOrEmpty",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.splitOrEmpty called on null or undefined");return""===String(this)?[]:String.prototype.split.apply(this,arguments)}}),Object.defineProperty(String.prototype,"toLocaleUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toLocaleUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return-1===n?"":r.toLocaleUpperCase()+e.slice(n+1)}}),Object.defineProperty(String.prototype,"toUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return-1===n?"":r.toUpperCase()+e.slice(n+1)}}),Object.defineProperty(Date.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:date)",this.toISOString()]}}),Object.defineProperty(Function.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)","("+this.toString()+")"]}}),Object.defineProperty(Map.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:map)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(RegExp.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)",this.toString()]}}),Object.defineProperty(Set.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:set)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(JSON,"reviveWrapper",{configurable:!0,writable:!0,value:function(e,t){if("string"!=typeof e)throw new TypeError("JSON.reviveWrapper code parameter must be a string");return["(revive:eval)",[e,t]]}}),Object.defineProperty(JSON,"_real_stringify",{value:JSON.stringify}),Object.defineProperty(JSON,"stringify",{configurable:!0,writable:!0,value:function(e,t,r){return JSON._real_stringify(e,function(e,r){var n=r;if("function"==typeof t)try{n=t(e,n)}catch(e){}return void 0===n&&(n=["(revive:eval)","undefined"]),n},r)}}),Object.defineProperty(JSON,"_real_parse",{value:JSON.parse}),Object.defineProperty(JSON,"parse",{configurable:!0,writable:!0,value:function value(text,reviver){return JSON._real_parse(text,function(key,val){var value=val;if(Array.isArray(value)&&2===value.length)switch(value[0]){case"(revive:set)":value=new Set(value[1]);break;case"(revive:map)":value=new Map(value[1]);break;case"(revive:date)":value=new Date(value[1]);break;case"(revive:eval)":try{if(Array.isArray(value[1])){var $ReviveData$=value[1][1];value=eval(value[1][0])}else value=eval(value[1])}catch(e){}}else if("string"==typeof value&&"@@revive@@"===value.slice(0,10))try{value=eval(value.slice(10))}catch(e){}if("function"==typeof reviver)try{value=reviver(key,value)}catch(e){}return value})}}),Object.defineProperty(Array.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.contains called on null or undefined");return Array.prototype.includes.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAll called on null or undefined");return Array.prototype.includesAll.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAny called on null or undefined");return Array.prototype.includesAny.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"flatten",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.flatten called on null or undefined");return Array.prototype.flat.call(this,1/0)}}),Object.defineProperty(String.prototype,"readBracketedList",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.readBracketedList called on null or undefined");for(var e=new RegExp("(?:\\[\\[((?:\\s|\\S)*?)\\]\\])|([^\"'\\s]\\S*)","gm"),t=[],r=void 0;null!==(r=e.exec(this));)r[1]?t.push(r[1]):r[2]&&t.push(r[2]);return t}})}();var Browser=function(){var e=navigator.userAgent.toLowerCase(),t=e.includes("windows phone"),r=Object.freeze({Android:!t&&e.includes("android"),BlackBerry:/blackberry|bb10/.test(e),iOS:!t&&/ip(?:hone|ad|od)/.test(e),Opera:!t&&("object"===_typeof(window.operamini)||e.includes("opera mini")),Windows:t||/iemobile|wpdesktop/.test(e),any:function(){return r.Android||r.BlackBerry||r.iOS||r.Opera||r.Windows}}),n=!r.Windows&&!/khtml|trident|edge/.test(e)&&e.includes("gecko"),a=!e.includes("opera")&&/msie|trident/.test(e),i=a?function(){var t=/(?:msie\s+|rv:)(\d+\.\d)/.exec(e);return t?Number(t[1]):0}():null,o=e.includes("opera")||e.includes(" opr/"),s=o?function(){var t=new RegExp((/khtml|chrome/.test(e)?"opr":"version")+"\\/(\\d+\\.\\d+)"),r=t.exec(e);return r?Number(r[1]):0}():null,u=e.includes("vivaldi");return Object.freeze({userAgent:e,isMobile:r,isGecko:n,isIE:a,ieVersion:i,isOpera:o,operaVersion:s,isVivaldi:u})}(),Has=function(){var e=function(){try{return"function"==typeof document.createElement("audio").canPlayType}catch(e){}return!1}(),t=function(){try{return"Blob"in window&&"File"in window&&"FileList"in window&&"FileReader"in window&&(!Browser.isOpera||Browser.operaVersion>=15)}catch(e){}return!1}(),r=function(){try{return"geolocation"in navigator&&"function"==typeof navigator.geolocation.getCurrentPosition&&"function"==typeof navigator.geolocation.watchPosition}catch(e){}return!1}(),n=function(){try{return"MutationObserver"in window&&"function"==typeof window.MutationObserver}catch(e){}return!1}(),a=function(){try{return"performance"in window&&"function"==typeof window.performance.now}catch(e){}return!1}(),i=function(){try{return"ontouchstart"in window||!!window.DocumentTouch&&document instanceof window.DocumentTouch||!!navigator.maxTouchPoints||!!navigator.msMaxTouchPoints}catch(e){}return!1}(),o=function(){try{for(var e=new Map([["transition","transitionend"],["MSTransition","msTransitionEnd"],["WebkitTransition","webkitTransitionEnd"],["MozTransition","transitionend"]]),t=[].concat(_toConsumableArray(e.keys())),r=document.createElement("div"),n=0;n<t.length;++n)if(r.style[t[n]]!==undefined)return e.get(t[n])}catch(e){}return!1}();return Object.freeze({audio:e,fileAPI:t,geolocation:r,mutationObserver:n,performance:a,touch:i,transitionEndEvent:o})}(),Visibility=function(){function e(){return a}function t(){return a&&document[a.stateProperty]||"visible"}function r(){return Boolean(a)}function n(){return Boolean(a&&document[a.hiddenProperty])}var a=function(){try{return Object.freeze([{hiddenProperty:"hidden",stateProperty:"visibilityState",changeEvent:"visibilitychange"},{hiddenProperty:"webkitHidden",stateProperty:"webkitVisibilityState",changeEvent:"webkitvisibilitychange"},{hiddenProperty:"mozHidden",stateProperty:"mozVisibilityState",changeEvent:"mozvisibilitychange"},{hiddenProperty:"msHidden",stateProperty:"msVisibilityState",changeEvent:"msvisibilitychange"}].find(function(e){return e.hiddenProperty in document}))}catch(e){}return undefined}();return Object.freeze(Object.defineProperties({},{vendor:{get:e},state:{get:t},isEnabled:{value:r},isHidden:{value:n},hiddenProperty:{value:a&&a.hiddenProperty},stateProperty:{value:a&&a.stateProperty},changeEvent:{value:a&&a.changeEvent}}))}(),Fullscreen=function(){function e(e){var t=e||document.documentElement;return t===document.documentElement&&("msRequestFullscreen"===f.requestFn||Browser.isOpera&&Browser.operaVersion<15)&&(t=document.body),t}function t(){return f}function r(){return(f||null)&&document[f.element]}function n(){return Boolean(f&&document[f.isEnabled])}function a(){return Boolean(f&&document[f.element])}function i(t,r){var n=this;if(!f)return Promise.reject(new Error("fullscreen not supported"));var i=e(r);if("function"!=typeof i[f.requestFn])return Promise.reject(new Error("fullscreen not supported"));if(a())return Promise.resolve();if(p())return i[f.requestFn](t);var o=".Fullscreen_requestFullscreen";return new Promise(function(e,r){jQuery(i).off(o).one(""+f.errorEvent+o+" "+f.changeEvent+o,function(t){jQuery(n).off(o),t.type===f.errorEvent?r(new Error("unknown fullscreen request error")):e()}),i[f.requestFn](t)})}function o(){var e=this;if(!f||"function"!=typeof document[f.exitFn])return Promise.reject(new TypeError("fullscreen not supported"));if(!a())return Promise.reject(new TypeError("fullscreen mode not active"));if(p())return document[f.exitFn]();var t=".Fullscreen_exitFullscreen";return new Promise(function(r,n){jQuery(document).off(t).one(""+f.errorEvent+t+" "+f.changeEvent+t,function(a){jQuery(e).off(t),a.type===f.errorEvent?n(new Error("unknown fullscreen exit error")):r()}),document[f.exitFn]()})}function s(e,t){return a()?o():i(e,t)}function u(t,r){if(f){var n=e(r);$(n).on(f.changeEvent,t)}}function l(t,r){if(f){var n=e(r);t?$(n).off(f.changeEvent,t):$(n).off(f.changeEvent)}}function c(t,r){if(f){var n=e(r);$(n).on(f.errorEvent,t)}}function d(t,r){if(f){var n=e(r);t?$(n).off(f.errorEvent,t):$(n).off(f.errorEvent)}}var f=function(){try{return Object.freeze([{isEnabled:"fullscreenEnabled",element:"fullscreenElement",requestFn:"requestFullscreen",exitFn:"exitFullscreen",changeEvent:"fullscreenchange",errorEvent:"fullscreenerror"},{isEnabled:"webkitFullscreenEnabled",element:"webkitFullscreenElement",requestFn:"webkitRequestFullscreen",exitFn:"webkitExitFullscreen",changeEvent:"webkitfullscreenchange",errorEvent:"webkitfullscreenerror"},{isEnabled:"mozFullScreenEnabled",element:"mozFullScreenElement",requestFn:"mozRequestFullScreen",exitFn:"mozCancelFullScreen",changeEvent:"mozfullscreenchange",errorEvent:"mozfullscreenerror"},{isEnabled:"msFullscreenEnabled",element:"msFullscreenElement",requestFn:"msRequestFullscreen",exitFn:"msExitFullscreen",changeEvent:"MSFullscreenChange",errorEvent:"MSFullscreenError"}].find(function(e){return e.isEnabled in document}))}catch(e){}return undefined}(),p=function(){function e(){if(null!==t)return t;if(t=!1,f)try{var e=document.exitFullscreen();e.catch(function(){}),t=e instanceof Promise}catch(e){}return t}var t=null;return e}();return Object.freeze(Object.defineProperties({},{vendor:{get:t},element:{get:r},isEnabled:{value:n},isFullscreen:{value:a},request:{value:i},exit:{value:o},toggle:{value:s},onChange:{value:u},offChange:{value:l},onError:{value:c},offError:{value:d}}))}(),_ref3=function(){function e(e){for(var t=e.cloneNode(!0),r=document.createDocumentFragment(),n=void 0;null!==(n=t.firstChild);){if(n.nodeType===Node.ELEMENT_NODE)switch(n.nodeName.toUpperCase()){case"BR":case"DIV":case"P":r.appendChild(document.createTextNode(" "))}r.appendChild(n)}return r.textContent}function t(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e)return e;if(e instanceof String)return String(e);if(e instanceof Number)return Number(e);if(e instanceof Boolean)return Boolean(e)

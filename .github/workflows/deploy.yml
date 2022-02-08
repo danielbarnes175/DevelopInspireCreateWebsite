@@ -13,13 +13,15 @@ jobs:
           host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
           key: ${{secrets.SSH_KEY}} # Private or public key of the server
           username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
-     
           script: |
             cd DevelopInspireCreateWebsite
-            git pull
-            echo 'Installing dependencies'
-            npm ci
-            echo 'Starting server'
-            cd ..
-            pm2 restart ecosystem.config.js --only DevelopInspireCreate
-            
+            git pull            
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '16.14.0'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Start Server
+        run: pm2 restart ~/ecosystem.config.js --only DevelopInspireCreate
+

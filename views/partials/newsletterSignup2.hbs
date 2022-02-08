@@ -1,0 +1,18 @@
+<div class="newsletter-signup">
+        <h1 class="myCenter">Sign up for the newsletter</h1>
+        <form class="myCenter" action="/subscribe" method="post">
+            <input class="form-box" type="email" id="email" name="email" placeholder="Enter your email">
+            <input type="submit" class="button-primary" />
+        </form>
+        <p class="form-description">Be one of the first to receive updates on new content with Develop Inspire Create</p>
+        <br>
+        {{#if attempted}}
+            {{#if result}}
+                <center><i class="fa fa-check"></i> Please check your email to verify your account!</center>
+            {{else}}
+                <center><i class="fa fa-times"></i> Something went wrong. Try again later.</center>
+            {{/if}}
+        {{else}}
+
+        {{/if}}
+</div>

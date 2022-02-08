@@ -13,44 +13,44 @@ const { getBlogTitle } = require('../services/BlogService.js');
 const controllers = {
     index: function (req, res) {
         if (req.query)
-            res.render('index.hbs', { title: 'Develop / Inspire / Create', condition: false, attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true') });
+            res.render('index.hbs', { title: 'Develop / Inspire / Create', attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true') });
         else
-            res.render('index.hbs', { title: 'Develop / Inspire / Create', condition: false });
+            res.render('index.hbs', { title: 'Develop / Inspire / Create' });
     },
     about: function (req, res) {
-        res.render('about.hbs', { title: 'About', condition: false });
+        res.render('about.hbs', { title: 'About' });
     },
     links: function (req, res) {
-        res.render('links.hbs', { title: 'Links', condition: false });
+        res.render('links.hbs', { title: 'Links' });
     },
     logo: function (req, res) {
         res.sendFile(path.resolve("public/images/DevelopInspireCreate.png"));
     },
     videos: async function (req, res) {
         let videoList = await YouTubeService.getVideos(req, res);
-        res.render('videos.hbs', { title: 'Videos', condition: false, videos: videoList });
+        res.render('videos.hbs', { title: 'Videos', videos: videoList });
     },
     contact: function (req, res) {
         let scripts = [{ script: 'https://www.google.com/recaptcha/api.js?render=6Le7JK0bAAAAADV3P6ZDDOXJHJImPrefIVghEs_7' }];
         if (req.query)
-            res.render('contact.hbs', { title: 'Contact', condition: false, attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true'), scripts: scripts });
+            res.render('contact.hbs', { title: 'Contact', attempted: (req.query.attempted == 'true'), result: (req.query.result == 'true'), scripts: scripts });
         else
-            res.render('contact.hbs', { title: 'Contact', condition: false, scripts: scripts });
+            res.render('contact.hbs', { title: 'Contact', scripts: scripts });
     },
     donate: function (req, res) {
-        res.render('donate.hbs', { title: 'Donate', condition: false });
+        res.render('donate.hbs', { title: 'Donate' });
     },
     develop: function (req, res) {
-        res.render('develop.hbs', { title: 'Develop', condition: false });
+        res.render('develop.hbs', { title: 'Develop' });
     },
     inspire: function (req, res) {
-        res.render('inspire.hbs', { title: 'Inspire', condition: false });
+        res.render('inspire.hbs', { title: 'Inspire' });
     },
     create: function (req, res) {
-        res.render('create.hbs', { title: 'Create', condition: false });
+        res.render('create.hbs', { title: 'Create' });
     },
     pp: function (req, res) {
-        res.render('privacyPolicy.hbs', { title: 'Privacy Policy', condition: false });
+        res.render('privacyPolicy.hbs', { title: 'Privacy Policy' });
     },
     products: function (req, res) {
         res.render('products.hbs', { title: 'Products' });
@@ -94,34 +94,37 @@ const controllers = {
     verify: function (req, res) {
         let id = req.query.id;
         EmailService.verifyId(id);
-        res.render('verified.hbs', { title: 'Email Verified', condition: false });
+        res.render('verified.hbs', { title: 'Email Verified' });
     },
     admin: function (req, res) {
-        res.render('admin/authenticate.hbs', { title: 'Admin Authentication', condition: false });
+        res.render('admin/authenticate.hbs', { title: 'Admin Authentication' });
     },
     authenticate: function (req, res) {
         AdminService.authenticate(req, res);
     },
     adminDashboard: function (req, res) {
         if (req.query && req.query.authentication_token === process.env.ADMIN_AUTHENTICATION_TOKEN)
-            res.render('admin/adminDashboard.hbs', { title: 'Admin Control Panel', condition: false, "authentication_token": req.query.authentication_token });
+            res.render('admin/adminDashboard.hbs', { title: 'Admin Control Panel', "authentication_token": req.query.authentication_token });
         else
-            res.render('admin/authenticate.hbs', { title: 'Admin Authentication', condition: false });
+            res.render('admin/authenticate.hbs', { title: 'Admin Authentication' });
     },
     newsletter: function (req, res) {
         if (req.params && req.params.authentication_token === ":" + process.env.ADMIN_AUTHENTICATION_TOKEN)
-            res.render('admin/newsletter.hbs', { title: 'Newsletter', condition: false, authenticated: true });
+            res.render('admin/newsletter.hbs', { title: 'Newsletter', authenticated: true });
         else
-            res.render('admin/newsletter.hbs', { title: 'Newsletter', condition: false });
+            res.render('admin/newsletter.hbs', { title: 'Newsletter' });
     },
     sendNewsletter: function (req, res) {
         EmailService.sendNewsletter(req, res);
     },
     addProject: function (req, res) {
         if (req.params && req.params.authentication_token === ":" + process.env.ADMIN_AUTHENTICATION_TOKEN)
-            res.render('admin/addProject.hbs', { title: 'Create New Project', condition: false, authenticated: true });
+            res.render('admin/addProject.hbs', { title: 'Create New Project', authenticated: true });
         else
-            res.render('admin/addProject.hbs', { title: 'Create New Project', condition: false });
+            res.render('admin/addProject.hbs', { title: 'Create New Project' });
+    },
+    resources: function (req, res) {
+        res.render('resources.hbs', { title: 'Resources' });
     },
     resume: function (req, res) {
         if (req.query && req.query.pdf) {
@@ -136,16 +139,16 @@ const controllers = {
     },
 
     notify: function (req, res) {
-        res.render('notify.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', condition: false });
+        res.render('notify.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout' });
     },
     notifyPost: function (req, res) {
         NotifyService.notify(req, res);
     },
     sendNotification: function (req, res) {
-        res.render('notified.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', condition: false, cache: false });
+        res.render('notified.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', cache: false });
     },
     aboutNotify: function (req, res) {
-        res.render('notify-about.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout', condition: false });
+        res.render('notify-about.hbs', { title: 'NotifyMe', layout: 'notifyMeLayout' });
     },
     nsfw: function (req, res) {
         res.render('nsfw.hbs', { title: '( ಠ◡ಠ )' });

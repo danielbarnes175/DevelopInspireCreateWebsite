@@ -39,6 +39,8 @@ module.exports = function(app) {
         .get(controller.products);
     app.route('/projects')
         .get(controller.projects);
+    app.route('/resources')
+        .get(controller.resources);
     app.route('/resume')
         .get(controller.resume);
     app.route('/robots.txt')

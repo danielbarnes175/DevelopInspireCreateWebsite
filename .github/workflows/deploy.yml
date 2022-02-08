@@ -19,7 +19,7 @@ jobs:
             echo 'Deployment successful to digital ocean' 
             cd DevelopInspireCreateWebsite
             echo 'Installing dependencies'
-            npm install
+            npm ci
             echo 'Starting server'
             node server.js
             

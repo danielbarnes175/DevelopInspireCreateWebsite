@@ -20,5 +20,6 @@ jobs:
             echo 'Installing dependencies'
             npm ci
             echo 'Starting server'
-            node server.js
+            cd ..
+            pm2 restart ecosystem.config.js --only DevelopInspireCreate
             

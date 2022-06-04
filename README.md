@@ -11,4 +11,4 @@
 A blog, a portfolio, a place to share projects? [DevelopInspireCreate](https://developinspirecreate.com) has it all.
 
 ### How can I help?  
-If you are interested in contributing to the website, please reach out to us at https://developinspirecreate.com/contact.
+If you are interested in contributing to the website, please create an issue on GitHub.

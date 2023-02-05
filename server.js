@@ -32,7 +32,7 @@ app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 // Logging middleware
 app.use(function(req, res, next) {
-  // logRequest(req, res);
+  logRequest(req, res);
   next();
 });
 

@@ -12,8 +12,8 @@ const fs = require('fs');
 const axios = require('axios');
 const { logRequest } = require('./services/LoggingService.js');
 
-const certificate = fs.readFileSync('developinspirecreate.com.crt');
-const privateKey = fs.readFileSync('developinspirecreate.com.key');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/developinspirecreate.com/fullchain.pem');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/developinspirecreate.com/privkey.pem');
 app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 
@@ -31,7 +31,7 @@ app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 // Logging middleware
 app.use(function(req, res, next) {
-  logRequest(req, res);
+  // logRequest(req, res);
   next();
 });
 

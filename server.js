@@ -32,17 +32,20 @@ app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 // Logging middleware
 app.use(function(req, res, next) {
-  logRequest(req, res);
+  res.on("finish", function() {
+    logRequest(req, res);
+  });
+
   next();
 });
 
 const routes = require('./api/routes.js');
 routes(app);
 
-app.use(function(req, res, next){
-  res.status(404).render('404.hbs');
-  logRequest(req, res);
-});
+// app.use(function(req, res, next){
+//   res.status(404).render('404.hbs');
+//   logRequest(req, res);
+// });
 
 var options = {
     key: privateKey,

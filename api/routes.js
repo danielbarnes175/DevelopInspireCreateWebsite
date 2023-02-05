@@ -75,4 +75,8 @@ module.exports = function(app) {
         .get(controller.newsletter);
     app.route('/newsletter/send/:authentication_token')
         .post(controller.sendNewsletter);
+
+    app.use((req, res, next) => {
+        res.status(404).render('404.hbs');
+    });
 };

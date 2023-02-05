@@ -12,8 +12,9 @@ const fs = require('fs');
 const axios = require('axios');
 const { logRequest } = require('./services/LoggingService.js');
 
-const certificate = fs.readFileSync('/etc/letsencrypt/live/developinspirecreate.com/fullchain.pem');
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/developinspirecreate.com/privkey.pem');
+const certificate = fs.readFileSync(process.env.SSL_CERTIFICATE_PATH);
+const privateKey = fs.readFileSync(process.env.SSL_KEY_PATH);
+
 app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 

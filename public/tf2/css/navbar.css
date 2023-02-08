@@ -1,0 +1,89 @@
+
+.navbar {
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,.09);
+}
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    overflow: wrap;
+}
+.navbar-list {
+    flex: 50%;
+    float: right;
+    text-align: right;
+    list-style-type: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 30px;
+}
+
+.navbar-list li .navbar-list-logo li {
+    padding: 0px 20px 10px 30px;
+}
+
+.navbar-logo {
+    flex: 33%;
+    text-align: left;
+    padding-left: 0;
+    margin: 0px 0px 3px 0px;
+}
+
+.navbar-logo img {
+    width: 80px;
+}
+
+.navbar a {
+    text-decoration: none;
+    margin: 0 10px;
+    color: #73777c;
+}
+
+.navbar a:hover {
+    color: rgb(35, 37, 37);
+    padding-bottom: 12px;
+    border-bottom: 3px solid rgb(208, 255, 0);
+}
+
+.navbar-logo a:hover {
+    padding-bottom: 0;
+}
+
+@media only screen and (max-width: 1250px) {
+    .pad-left {
+        margin-left: 10%;
+    }
+
+    .pad-right {
+        margin-right: 10%;
+    }
+
+    .navbar-container { 
+        flex-direction: column;
+    }
+
+    .navbar-list {
+        flex: 100%;
+        float: center;
+        text-align: center;
+        padding-left: 0;
+        margin-top: 6px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .pad-left {
+        margin-left: 5%;
+    }
+
+    .pad-right {
+        margin-right: 5%;
+    }
+  }
+
+  @media only screen and (max-width: 400px) { 
+      .navbar-list {
+          font-size: 70%;
+      }
+  }

@@ -1,16 +1,18 @@
 const express = require('express');
-const app = express();
 const dotenv = require('dotenv');
-dotenv.config();
-const bodyParser  = require('body-parser');
+const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const path = require('path');
 const favicon = require('serve-favicon');
-const port = process.env.PORT || 3000;
 const https = require('https');
 const fs = require('fs');
 const axios = require('axios');
 const { logRequest } = require('./services/LoggingService.js');
+const helpers = require('./helpers/handlebars-helpers.js');
+
+const port = process.env.PORT || 3000;
+const app = express();
+dotenv.config();
 
 const certificate = fs.readFileSync(process.env.SSL_CERTIFICATE_PATH);
 const privateKey = fs.readFileSync(process.env.SSL_KEY_PATH);
@@ -19,7 +21,8 @@ app.engine('hbs', hbs({
     extname: 'hbs', 
     defaultLayout: 'layout', 
     layoutsDir: path.join(__dirname + '/views/layouts/'),
-    partialsDir: path.join(__dirname + '/views/partials/')
+    partialsDir: path.join(__dirname + '/views/partials/'),
+    helpers: helpers
 }));
 
 app.set('views', path.join(__dirname + '/views/'));
@@ -41,11 +44,6 @@ app.use(function(req, res, next) {
 
 const routes = require('./api/routes.js');
 routes(app);
-
-// app.use(function(req, res, next){
-//   res.status(404).render('404.hbs');
-//   logRequest(req, res);
-// });
 
 var options = {
     key: privateKey,

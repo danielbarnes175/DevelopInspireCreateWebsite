@@ -1,0 +1,25 @@
+<div class="pad-left pad-right">
+      <center><h1><a href="https://braceyourshelf.github.io/TF2-Player-Stats/" style="text-decoration: none;color: black;">TF2 Player Stats</a></h1></center>
+
+      <h3>Generate table:</h3>
+      <form id="playerStatsForm" action="/tf2/processPlayerStats" method="post">
+        <script>
+            function submitForm() {
+                document.getElementById("submitLogs").innerHTML = `<i class="fa fa-spinner fa-spin"></i> Processing, this may take a few minutes...`;
+                document.getElementById("playerStatsForm").submit();
+            }
+        </script>
+        <textarea required name="logs" id="logs" placeholder="Insert log IDs here, separated by a comma" rows="10" style="width: 100%; max-width: 100%;"></textarea>
+        <div class="g-recaptcha" data-sitekey="6Le7JK0bAAAAADV3P6ZDDOXJHJImPrefIVghEs_7" data-bind="recaptcha-submit"
+            data-callback="submitForm"></div>
+        <button onClick="submitForm()" class="button-primary" id="submitLogs">Process Logs</button>
+      </form>
+
+      
+      <h3>Archive (WIP)</h3>
+      <p>
+        <a href="rglLogs/s10/main/mainLogs_output.json.html">S10 Main Logs</a>
+        <br>
+        <a href="rglLogs/s10/main/mainPlayoffsLogs_output.json.html">S10 Main Playoffs Logs</a>
+      </p>
+</div>

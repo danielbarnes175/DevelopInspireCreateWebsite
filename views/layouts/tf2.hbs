@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{{ title }}</title>
+    <link rel="shortcut icon" href="/images/favicon.ico?v=2" />
+    
+    <script defer src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>  
+    <script defer type="module" src="/script.js"></script>
+    <script type="text/javascript">
+        function reloadPage () {
+            location.reload();
+            return true;
+        }
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163435828-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-163435828-1');
+    </script>
+
+    <!-- Google Ads -->
+    <script data-ad-client="ca-pub-1981335908124300" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/animations.css">
+    <link rel="stylesheet" href="/main-pages.css">
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="wrapper">
+    
+    {{> tf2-navbar }}
+    <main id="swup" class="transition-fade">
+    {{{ body }}}
+    </main>
+    {{> footer }}
+</body>
+
+</html>

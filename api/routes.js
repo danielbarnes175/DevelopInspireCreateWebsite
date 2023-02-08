@@ -62,6 +62,13 @@ module.exports = function(app) {
     app.route('/lifeSimulator')
         .get(controller.lifeSimulator);
 
+    app.route('/tf2/playerStats')
+        .get(controller.tf2PlayerStats);
+    app.route('/tf2/processPlayerStats')
+        .post(controller.processPlayerStats);
+    app.route('/tf2/about')
+        .get(controller.tf2About);
+
     // Admin pages
     app.route('/addProject/:authentication_token')
         .get(controller.addProject);

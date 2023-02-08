@@ -1,0 +1,113 @@
+html {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+#filter {
+    width: 40%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#filterCategory {
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    padding: 7px;
+}
+
+thead {
+    background-color: #f1f1f1;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 100%;
+}
+
+.table-shown {
+    display: inline-block;
+}
+
+.table-hidden {
+    display: none;
+}
+
+.inline {
+    display: inline;
+}
+
+div.dataTables_filter {
+    margin-bottom: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+div.dataTables_filter label {
+    font-size: 16px;
+    padding: 12px 0px 12px 0px;
+    margin-right: 5px;
+    margin-bottom: 6px;
+}
+
+div.dataTables_filter input {
+    width: 40%;
+    font-size: 16px;
+    padding: 12px 20px 12px 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 6px;
+}
+
+div.dtsb-searchBuilder {
+    width: 1000px;
+    display: inline-block;
+}
+
+button {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+button:focus {
+    background-color:#706f6f;
+}
+
+.pad-left {
+    margin-left: 25%;
+}
+
+.pad-right {
+    margin-right: 25%;
+}
+
+@media only screen and (max-width: 670px) {
+    .pad-left {
+        margin-left: 20%;
+    }
+    
+    .pad-right {
+        margin-right: 20%;
+    }
+}

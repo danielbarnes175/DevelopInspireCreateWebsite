@@ -8,6 +8,7 @@ const AdminService = require('../services/AdminService.js');
 const YouTubeService = require('../services/YouTubeService.js');
 const NotifyService = require('../services/NotifyService.js');
 const BlogService = require('../services/BlogService.js');
+const TF2Service = require('../services/TF2Service.js');
 const { getBlogTitle } = require('../services/BlogService.js');
 
 const controllers = {
@@ -158,6 +159,31 @@ const controllers = {
     lifeSimulator: function (req, res) {
         let scripts = [{ script: 'js/LifeSimulator/LifeSimulatorService.js' }];
         res.render('lifeSimulator/lifeSimulator.hbs', { title: 'Life Simulator', scripts: scripts, onLoad: 'initialSetup()' });
+    },
+
+    // TF2 stuff
+    tf2PlayerStats: function (req, res) {
+        res.render('tf2PlayerStats.hbs', { title: 'TF2 Player Stats', layout: 'tf2' });
+    },
+    tf2About: function (req, res) {
+        res.render('tf2About.hbs', { title: 'TF2', layout: 'tf2' });
+    },
+    processPlayerStats: async function (req, res) {
+        let logs = sanitize(req.body.logs);
+        logs = logs.split(",").map(id => Number(id));
+        let playerStats;
+        try {
+            playerStats = await TF2Service.calculatePlayerStats(logs);
+        } catch (err) {
+            console.log(err.message);
+        }
+
+        if (Object.keys(playerStats).length !== 0) {
+            res.render('partials/tf2StatsTable.hbs', { title: 'TF2 Player Stats', layout: 'tf2StatsPage', playerStats });
+        } else {
+            res.send("Error: No player stats found. Ensure provided log IDs are correct");
+        }
+        
     }
 };
 

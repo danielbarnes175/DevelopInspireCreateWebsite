@@ -9,6 +9,7 @@ const YouTubeService = require('../services/YouTubeService.js');
 const NotifyService = require('../services/NotifyService.js');
 const BlogService = require('../services/BlogService.js');
 const TF2Service = require('../services/TF2Service.js');
+const GoogleSheetsService = require('../services/GoogleSheetsService.js');
 const { getBlogTitle } = require('../services/BlogService.js');
 
 const controllers = {
@@ -168,6 +169,12 @@ const controllers = {
     tf2About: function (req, res) {
         res.render('tf2About.hbs', { title: 'TF2', layout: 'tf2' });
     },
+    tf2RTB: async function (req, res) {
+        let htmlTable = await GoogleSheetsService.getRTBStats();
+
+        res.set('Content-Type', 'text/html');
+        res.send(Buffer.from(htmlTable));
+    },
     processPlayerStats: async function (req, res) {
         let logs = sanitize(req.body.logs);
         logs = logs.split(",").map(id => Number(id));
@@ -183,7 +190,6 @@ const controllers = {
         } else {
             res.send("Error: No player stats found. Ensure provided log IDs are correct");
         }
-        
     }
 };
 

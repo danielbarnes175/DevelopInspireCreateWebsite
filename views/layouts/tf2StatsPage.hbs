@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TF2 Player Stats</title>
-    
-    <script defer src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>  
-    <script defer type="module" src="/script.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/searchbuilder/1.3.4/css/searchBuilder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
@@ -130,11 +127,6 @@
     </script>
   </head>
   <body class="wrapper">
-    {{> tf2-navbar }}
-    <main id="swup" class="transition-fade">
-    {{{ body }}}
-    </main>
-    {{> footer }}
-  </div>
+    {{> tf2StatsTable scout=scout soldier=soldier pyro=pyro demoman=demoman heavy=heavy engineer=engineer medic=medic sniper=sniper spy=spy }} 
   </body>
 </html>

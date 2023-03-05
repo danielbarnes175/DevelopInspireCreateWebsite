@@ -68,6 +68,8 @@ module.exports = function(app) {
         .post(controller.processPlayerStats);
     app.route('/tf2/about')
         .get(controller.tf2About);
+    app.route('/tf2/rtb')
+        .get(controller.tf2RTB);
 
     // Admin pages
     app.route('/addProject/:authentication_token')
